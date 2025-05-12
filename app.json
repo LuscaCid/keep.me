@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "nance.me",
-    "slug": "nance.me",
+    "name": "keep.me",
+    "slug": "keep.me",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "nanceme",
+    "scheme": "keepme",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
