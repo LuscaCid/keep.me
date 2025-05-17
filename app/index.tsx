@@ -1,66 +1,66 @@
-import {Button, StyleSheet, Text, TextInput, View} from "react-native";
+import { View, ScrollView, FlatList } from "react-native";
+import {useState } from "react";
 import "../global.css"
-import {Link, router} from "expo-router";
-import {useState} from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {Header} from "@/Components/Header";
+import { HomeHeader } from "@/components/HomeHeader";
+import { WalletInfo } from "@/components/WalletInfo";
+import { IncomesOutcomesAmount } from "@/components/IncomesOutcomesAmount";
+import { FinancialWrapper } from "@/components/FinancialWrapper";
+import { EarningCard } from "@/components/EarningCard";
+import { Saving, SavingCard } from "@/components/SavingCard";
 
-export default function HomeScreen () {
-  const [ username, setUsername ] = useState("a");
+const savings : Saving[] = [
+  { actualValue: 100, goal: 300, name: "baseado 1", id : 1},
+  { actualValue: 110, goal: 300, name: "baseado 2", id : 2},
+  { actualValue: 120, goal: 300, name: "baseado 3", id : 3},
+  { actualValue: 130, goal: 300, name: "baseado 4", id : 4},
+  { actualValue: 140, goal: 300, name: "baseado 5", id : 5},
+  { actualValue: 150, goal: 300, name: "baseado 6", id : 6},
+]
+export default function HomeScreen() 
+{
+
+  const renderItem = ({ item, index } : { item : Saving, index : number }) => {
+    const isOdd = index % 2 !== 0;
+    return <SavingCard 
+      additionalClassname={`${!isOdd ? "mr-4" : "mr-0"}`} 
+      saving={item} 
+      key={item.id}
+      keyColor={item.id}
+    />
+  }
   return (
-    <SafeAreaView className={"h-full w-full p-4 bg-zinc-900"}>
-      <Header />
+    <View className={"h-full w-full  flex flex-col gap-6 bg-zinc-100 dark:bg-zinc-950"}>
+      <HomeHeader />
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        contentContainerClassName="flex flex-col gap-6 bg-zinc-100 dark:bg-zinc-950"
+      >
+        <View className="flex flex-col gap-4 w-full">
+          <WalletInfo />
+          <IncomesOutcomesAmount />
+        </View>
+        <FinancialWrapper title="Earnings">
+          <ScrollView
+            horizontal
+            contentContainerClassName="gap-4 flex flex-row"
+            showsHorizontalScrollIndicator={false}
+          >
+            {[...Array(6)].map((_, index) => (
+              <EarningCard keyColor={index} key={index} amount={200} from="Freela" />
+            ))}
+          </ScrollView>
+        </FinancialWrapper>
+        <FinancialWrapper title="Savings">
+          <FlatList 
+            data={savings}
+            renderItem={renderItem}
+            numColumns={2}
+            className=""
+            contentContainerClassName="gap-4"
+          />
+        </FinancialWrapper>
+      </ScrollView>
 
-      {/*<Text style={styles.text}>*/}
-      {/*  Ola worlds Home*/}
-      {/*</Text>*/}
-      {/*<Link href={"/profile"} className={"rounded-md px-2 py-1 text-bold bg-zinc-700"}>*/}
-      {/*  <Text className={"text-zinc-100 "}>*/}
-      {/*    profile*/}
-      {/*  </Text>*/}
-      {/*</Link>*/}
-      {/*<Button title={"go to dashboard"} onPress={() => router.replace("/dashboard")}/>*/}
-
-      {/*<View className={"flex items-center flex-row gap-2 w-full"}>*/}
-      {/*  <TextInput*/}
-      {/*    value={username}*/}
-      {/*    onChangeText={(value) =>setUsername(value)}*/}
-      {/*    placeholder={"Search for user"}*/}
-      {/*    className={" px-4 text-zinc-200 bg-zinc-800 rounded-lg w-[90%] outline-2 outline-lime-400"}*/}
-      {/*  />*/}
-
-      {/*  <Link*/}
-      {/*    href={{ pathname : "/user/[id]", params : { id : username }}}*/}
-      {/*    className={"rounded-md px-2 py-1 text-bold bg-zinc-700"}*/}
-      {/*  >*/}
-      {/*    <Text className={"text-zinc-100 "}>*/}
-      {/*      user*/}
-      {/*    </Text>*/}
-      {/*  </Link>*/}
-
-      {/*</View>*/}
-    </SafeAreaView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container : {
-    flex : 1,
-    alignItems:"center",
-    justifyContent:"center",
-    backgroundColor: "#333",
-    color: "#fff"
-  },
-  text : {
-    padding : 20,
-    backgroundColor : "#303030",
-    color: "#fff",
-    borderRadius : 10,
-
-  },
-  button : {
-    position : "absolute",
-    bottom : 10,
-    right : 10
-  }
-})
