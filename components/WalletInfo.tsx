@@ -4,10 +4,15 @@ import WalletDetail from "../assets/images/wallet.png";
 import Ellipse from "../assets/images/Ellipse.png";
 import "../global.css"
 import { formatToBrl } from "@/utils/formatToBrl";
+import { useRouter } from "expo-router";
 
 export function WalletInfo() {
+  const router = useRouter();
+  const handleNavigateToWallet = () => {
+    router.navigate("/wallet");
+  }
   return (
-    <View className="bg-zinc-900 w-full h-[140px] rounded-2xl py-4 px-6 overflow-hidden  ">
+    <View className="dark:border dark:border-zinc-800 bg-zinc-900 w-full h-[140px] rounded-2xl py-4 px-6 overflow-hidden  ">
       <Image className="absolute top-0 right-0 opacity-80" source={WalletDetail} />
       <Image className="absolute bottom-0 left-0 opacity-80" source={Ellipse} />
       <View className="flex flex-col gap-2 ">
@@ -22,7 +27,7 @@ export function WalletInfo() {
         <Text className="text-zinc-200 text-lg">
           My Wallet
         </Text>
-        <TouchableOpacity className="flex items-center p-3 rounded-full bg-zinc-200">
+        <TouchableOpacity onPress={handleNavigateToWallet} className="flex items-center p-3 rounded-full bg-zinc-200">
           <ArrowRight strokeWidth={3} size={20} />
         </TouchableOpacity>
       </View>

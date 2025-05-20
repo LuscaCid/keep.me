@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ScrollView, Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 
 interface Props {
   title : string;

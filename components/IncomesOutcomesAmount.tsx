@@ -3,15 +3,15 @@ import Incomeoutcome2 from "../assets/images/incomeoutcome2.png";
 import { ArrowDown, ArrowUp } from "lucide-react-native";
 import { JSX, useMemo } from "react";
 import { Image, Text, View } from "react-native";
-import "../global.css"
 import { formatToBrl } from "@/utils/formatToBrl";
+import { TransactionType } from "@/@types/Transaction";
 
 export function IncomesOutcomesAmount() {
   return (
-    <View className="bg-zinc-900 w-full rounded-2xl py-4 px-6 overflow-hidden relative ">
+    <View className="bg-zinc-900 dark:border dark:border-zinc-800 w-full rounded-2xl py-4 px-6 overflow-hidden relative ">
       <Image className="absolute top-0 left-0 opacity-80" source={Incomeoutcome1} />
       <Image className="absolute bottom-0 right-0 opacity-80" source={Incomeoutcome2} />
-      <View className="flex flex-row items-center justify-center justify-between">
+      <View className="flex flex-row items-center justify-between">
         <IncomeOutcomeAside type="income" />
         <View className="h-full w-[1px] bg-zinc-200" />
         <IncomeOutcomeAside type="outcome" />
@@ -20,7 +20,6 @@ export function IncomesOutcomesAmount() {
   );
 }
 
-export type TransactionType = "outcome" | "income"
 interface IncomeOutcomeAsideProps {
   type: TransactionType;
 }
