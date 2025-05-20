@@ -1,30 +1,67 @@
+import { AppScrollView } from "@/components/AppScrollView";
 import { CreditCardComponent } from "@/components/CreditCard";
-import { GenericalHeader } from "@/components/GenericalHeader";
+import { FinancialWrapper } from "@/components/FinancialWrapper";
+import { DropdownButton, GenericalHeader } from "@/components/GenericalHeader";
 import { ScreenWrapper } from "@/components/ScreenWrapper";
 import { Link, useRouter } from "expo-router";
-import { PlusCircle } from "lucide-react-native";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { CreditCard, PlusCircle } from "lucide-react-native";
+import { useColorScheme } from "nativewind";
+import { ScrollView, SectionList, Text, View } from "react-native";
+import { Transaction } from "@/@types/Transaction";
+import { TransactionCard } from "@/components/TransactionCard";
+import { transactions } from "@/constants/transactions";
+import { creditCards } from "@/constants/creditCards";
 
-export default function WalletScreen () {
+export default function WalletScreen() {
+  const { colorScheme } = useColorScheme();
   const router = useRouter();
-
+  const handleNavigateToNewCard = () => {
+    router.push({ pathname : "/[id]", params : { id : "0" } });
+  }
   return (
     <ScreenWrapper>
-      <GenericalHeader title="Wallet" dropdown={<></>}/>
-      <ScrollView 
-        horizontal
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName="flex flex-row gap-2 w-full max-h-[150px]"
-      >
-        <Link 
-          className="h-[150px] border rounded-2xl border-dashed p-2 max-w-fit w-[40px] flex items-center justify-center "
-          href={{ pathname : "/(card)/[id]", params : { id : "123" } }} 
+      <GenericalHeader title="Wallet" dropdown={
+        <DropdownButton  icon={CreditCard} onPress={handleNavigateToNewCard} title="New card"/>
+      } />
+      <AppScrollView>
+        <AppScrollView
+          horizontal={true}
+          contentContainerClassName="flex flex-row gap-4"
         >
-          <PlusCircle className="m-auto" size={25} />
-        </Link>
-        <CreditCardComponent creditCard={{ bank : "Nu", cvv : "122", exp: "09/32", flag : "Visa", name : "Salcard", number : "1234432112344321", totalBalance : 25000}}/>
-      </ScrollView>
-
+          {
+            creditCards.length > 0 && creditCards.map((creditCard) => (
+              <CreditCardComponent creditCard={creditCard} key={creditCard.id} />
+            ))
+          }
+        </AppScrollView>
+      <Link
+        className=" border dark:border-zinc-400 border-zinc-500 rounded-2xl border-dashed p-2 w-full mt-4"
+        href={{ pathname: "/(card)/[id]", params: { id: "0" } }}
+      >
+        <View className="w-full flex items-center justify-center">
+          <PlusCircle className="h-full bg-zinc-200" size={25} color={colorScheme === "dark" ? "#fff" : "#71717a"} />
+        </View>
+      </Link>
+      <FinancialWrapper title="Transactions">
+        <SectionList 
+          contentContainerClassName="flex flex-col gap-2"
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={false} 
+          sections={transactions}
+          renderSectionHeader={({ section : { title }}) => (
+            <Text className="text-zinc-400 dark:text-zinc-600 font-medium text-lg">
+              {title}
+            </Text>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <TransactionCard transaction={item as Transaction} key={item.id}/>
+          )}
+        />
+      </FinancialWrapper>
+      </AppScrollView>
+      
     </ScreenWrapper>
   );
 }
+

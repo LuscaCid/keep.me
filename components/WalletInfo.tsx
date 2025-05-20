@@ -13,8 +13,8 @@ export function WalletInfo() {
   }
   return (
     <View className="dark:border dark:border-zinc-800 bg-zinc-900 w-full h-[140px] rounded-2xl py-4 px-6 overflow-hidden  ">
-      <Image className="absolute top-0 right-0 opacity-80" source={WalletDetail} />
-      <Image className="absolute bottom-0 left-0 opacity-80" source={Ellipse} />
+      <Image className="absolute top-0 right-0" source={WalletDetail} />
+      <Image className="absolute bottom-0 left-0" source={Ellipse} />
       <View className="flex flex-col gap-2 ">
         <Text className="text-lg text-zinc-200">
           Total balance

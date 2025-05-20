@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "keep.me",
-    "slug": "keep.me",
+    "slug": "keep-me",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.tarashifon.keepme"
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5f0bbbb3-ac3d-45da-8ea7-c7bda1719b60"
+      }
     }
   }
 }
