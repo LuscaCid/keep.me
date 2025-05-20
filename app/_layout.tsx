@@ -68,7 +68,7 @@ export default function Layout() {
         options={{ href: null, }}
       />
       <Tabs.Screen
-        name="card/[id]"
+        name="(card)"
         options={{ href: null, }}
       />
     </Tabs>

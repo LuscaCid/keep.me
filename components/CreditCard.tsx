@@ -1,13 +1,12 @@
 import { CreditCard } from "@/@types/CreditCard";
 import { formatToBrl } from "@/utils/formatToBrl";
-import { View } from "lucide-react-native";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 interface Props {
   creditCard : CreditCard
 }
 export function CreditCardComponent ({ creditCard } : Props) {
   return (
-    <View className="rounded-2xl dark:border dark:border-zinc-700 bg-zinc-800">
+    <View className="rounded-2xl dark:border dark:border-zinc-700 w-[250px] bg-zinc-800">
       <View className="flex flex-row justify-between w-full m-4">
         <View className="flex flex-col gap-1">
           <Text className="font-thin text-lg text-zinc-300 dark:text-zinc-600">
