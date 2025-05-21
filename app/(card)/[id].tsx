@@ -12,37 +12,39 @@ import { useColorScheme } from "nativewind";
 import { z } from "zod";
 import { FormSchemaFactory } from "@/constants/formSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Select from 'react-native-picker-select';
 import { cardBrands } from "@/constants/cardBrands";
 import { banks } from "@/constants/banks";
+import { Select } from "@/components/Select";
+
 type CreditCardFormType = z.infer<typeof FormSchemaFactory.formCreditCardSchema>;
 export default function CreditCardScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const queryClient = useQueryClient();
   const { colorScheme } = useColorScheme();
-  const [ creditCardToEdit, setCreditCardToEdit ] = useState<CreditCard | undefined>(undefined);
-  const methods = useForm<CreditCardFormType>({ 
+
+  const [creditCardToEdit, setCreditCardToEdit] = useState<CreditCard | undefined>(undefined);
+  const methods = useForm<CreditCardFormType>({
     resolver: zodResolver(FormSchemaFactory.formCreditCardSchema),
-    defaultValues : {
-      totalBalance : creditCardToEdit ? creditCardToEdit.totalBalance : 0,
-      bank : creditCardToEdit ? creditCardToEdit.bank : "",
-      cvv : creditCardToEdit ? creditCardToEdit.cvv : "",
-      exp : creditCardToEdit ? creditCardToEdit.exp : "",
-      flag : creditCardToEdit ? creditCardToEdit.flag : "",
-      name : creditCardToEdit ? creditCardToEdit.name : "",
-    } 
+    defaultValues: {
+      totalBalance: creditCardToEdit ? creditCardToEdit.totalBalance : 0,
+      bank: creditCardToEdit ? creditCardToEdit.bank : "",
+      cvv: creditCardToEdit ? creditCardToEdit.cvv : "",
+      exp: creditCardToEdit ? creditCardToEdit.exp : "",
+      flag: creditCardToEdit ? creditCardToEdit.flag : "",
+      name: creditCardToEdit ? creditCardToEdit.name : "",
+    }
   });
 
   useEffect(() => {
     const cachedCreditCards = queryClient.getQueryData(["credit-cards"]) as CreditCard[] ?? [];
-    setCreditCardToEdit(cachedCreditCards.find((creditCard) => creditCard.id == id));
-  }, [id]);
+    setCreditCardToEdit(cachedCreditCards.find((creditCard) => creditCard.id === id));
+  }, [id, queryClient]);
 
   return (
     <ScreenWrapper className="relative flex flex-col gap-5">
-      <GenericalHeader 
+      <GenericalHeader
         backRoute="/wallet"
-        title={`${creditCardToEdit ? "Edit" : "New"}`} 
+        title={`${creditCardToEdit ? "Edit" : "New"}`}
         dropdown={<></>}
       />
       <FormProvider {...methods}>
@@ -62,58 +64,12 @@ export default function CreditCardScreen() {
         </View>
         <View className="flex flex-col gap-3 w-full border-t my-5 py-5 border-zinc-200 dark:border-zinc-800">
           <Select
-            useNativeAndroidPickerStyle={false}
-            pickerProps={{ className: "bg-zinc-200" }}
-            style={{
-              inputAndroid: {
-                backgroundColor: '#fff', 
-                color: '#000',
-                paddingVertical: 10,
-                fontSize : 16,
-                paddingHorizontal: 10,
-                borderRadius: 8,
-              },
-              inputIOS: {
-                backgroundColor: '#fff', 
-                color: '#000',
-                paddingVertical: 10,
-                fontSize : 16,
-                paddingHorizontal: 10,
-                borderRadius: 8,
-              },
-              placeholder: {
-                color: '#9CA3AF',
-              }
-            }}
-            onValueChange={(value) => console.log(value)}
+            placeholder="Brands"
+            onChangeValue={(value : any) => console.log(value)}
             items={cardBrands}
-            placeholder={"Bandeiras"}
           />
           <Select
-            useNativeAndroidPickerStyle={false}
-            pickerProps={{ className: "bg-zinc-200" }}
-            style={{
-              inputAndroid: {
-                backgroundColor: '#fff', 
-                color: '#000',
-                paddingVertical: 10,
-                fontSize : 16,
-                paddingHorizontal: 10,
-                borderRadius: 8,
-              },
-              inputIOS: {
-                backgroundColor: '#fff', 
-                color: '#000',
-                paddingVertical: 10,
-                fontSize : 16,
-                paddingHorizontal: 10,
-                borderRadius: 8,
-              },
-              placeholder: {
-                color: '#9CA3AF',
-              }
-            }}
-            onValueChange={(value) => console.log(value)}
+            onChangeValue={(value : any) => console.log(value)}
             items={banks}
           />
         </View>
@@ -123,7 +79,7 @@ export default function CreditCardScreen() {
         onPress={() => console.log()}
       >
         <Text className=" text-lg font-bold  text-zinc-100">
-          { creditCardToEdit ? "Edit" : "Add" }
+          {creditCardToEdit ? "Edit" : "Add"}
         </Text>
         <ArrowRight size={20} color={"#fff"} />
       </TouchableOpacity>

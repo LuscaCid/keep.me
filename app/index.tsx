@@ -1,4 +1,4 @@
-import { View, ScrollView, FlatList, SectionList, Text, TouchableWithoutFeedback } from "react-native";
+import { View, ScrollView, FlatList, SectionList, Text } from "react-native";
 import { HomeHeader } from "@/components/HomeHeader";
 import { WalletInfo } from "@/components/WalletInfo";
 import { IncomesOutcomesAmount } from "@/components/IncomesOutcomesAmount";
@@ -12,10 +12,8 @@ import { TransactionCard } from "@/components/TransactionCard";
 import { savings } from "@/constants/savings";
 import { transactions } from "@/constants/transactions";
 import { earnings } from "@/constants/earnings";
-import { useDropdow } from "@/store/dropdown";
 
 export default function HomeScreen() {
-  const setIsOpen = useDropdow(state => state.setIsOpen);
   const renderItem = ({ item, index }: { item: Saving, index: number }) => {
     const isOdd = index % 2 !== 0;
     return <SavingCard
@@ -27,20 +25,18 @@ export default function HomeScreen() {
   }
   return (
     <ScreenWrapper>
-      <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+      
         <HomeHeader />
-      </TouchableWithoutFeedback>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerClassName=" flex flex-col gap-6 bg-zinc-100 dark:bg-zinc-950"
       >
-        <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+        
           <View className="flex flex-col gap-4 w-full">
             <WalletInfo />
             <IncomesOutcomesAmount />
           </View>
-        </TouchableWithoutFeedback>
-        <FinancialWrapper title="Earnings">
+          <FinancialWrapper title="Earnings">
           <FlatList
             showsHorizontalScrollIndicator={false}
             contentContainerClassName="gap-4 flex flex-row"
@@ -51,7 +47,7 @@ export default function HomeScreen() {
             )}
           />
         </FinancialWrapper>
-        <TouchableWithoutFeedback onPress={() => setIsOpen(false)}>
+        
           <View>
             <FinancialWrapper title="Savings">
               <FlatList
@@ -81,8 +77,7 @@ export default function HomeScreen() {
               />
             </FinancialWrapper>
           </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+        </ScrollView>
     </ScreenWrapper>
   );
 }
