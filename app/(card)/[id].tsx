@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cardBrands } from "@/constants/cardBrands";
 import { banks } from "@/constants/banks";
 import { Select } from "@/components/Select";
+import { FieldSet } from "@/components/FieldSet";
 
 type CreditCardFormType = z.infer<typeof FormSchemaFactory.formCreditCardSchema>;
 export default function CreditCardScreen() {
@@ -63,15 +64,22 @@ export default function CreditCardScreen() {
           <FormInput name="totalBalance" placeholder="Card value" />
         </View>
         <View className="flex flex-col gap-3 w-full border-t my-5 py-5 border-zinc-200 dark:border-zinc-800">
-          <Select
-            placeholder="Brands"
-            onChangeValue={(value : any) => console.log(value)}
-            items={cardBrands}
-          />
-          <Select
-            onChangeValue={(value : any) => console.log(value)}
-            items={banks}
-          />
+          <FieldSet
+            label="Select brand"
+            input={
+              <Select
+                onChangeValue={(value: any) => console.log(value)}
+                items={cardBrands}
+              />
+            } />
+          <FieldSet
+            label="Select bank"
+            input={
+              <Select
+                onChangeValue={(value: any) => console.log(value)}
+                items={banks}
+              />
+            } />
         </View>
       </FormProvider>
       <TouchableOpacity
