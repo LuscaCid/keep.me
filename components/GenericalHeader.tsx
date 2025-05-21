@@ -44,7 +44,7 @@ export function GenericalHeader({ dropdown, title, backRoute }: Props) {
       >
         <EllipsisVertical size={20} color={color} />
       </TouchableOpacity>
-      {
+      {/* {
         isOpen && (
           <View
             className=" right-5 top-16 z-[1000000] dark:bg-zinc-800 flex flex-col  bg-zinc-100 rounded-2xl border border-zinc-200 dark:border-zinc-800 absolute"
@@ -56,7 +56,7 @@ export function GenericalHeader({ dropdown, title, backRoute }: Props) {
             <DropdownButton icon={ArrowRight} onPress={onPress} title="Logout" />
           </View>
         )
-      }
+      } */}
     </View>
   );
 }

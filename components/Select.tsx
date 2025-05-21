@@ -25,7 +25,7 @@ export function Select({ onChangeValue, items, placeholder } : Props) {
         inputIOS: {
           backgroundColor: backgroundColor,
           color: textColor,
-          paddingVertical: 10,
+           paddingVertical: 10,
           fontSize: 16,
           paddingHorizontal: 10,
           borderRadius: 8,

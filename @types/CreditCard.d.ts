@@ -2,9 +2,9 @@ export interface CreditCard {
   id : string;
   name : string;
   cvv : string;
-  totalBalance : number;
+  totalBalance : string;
   number : string;
   exp : string;
-  flag: string;
+  brand: string;
   bank: string;
 }

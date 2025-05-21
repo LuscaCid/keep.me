@@ -1,86 +1,28 @@
-import { Tabs } from "expo-router";
-import { Home, MessageCircle, User, Wallet2Icon } from "lucide-react-native";
-import { useColorScheme } from "nativewind";
-import "../global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Slot, Stack } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "../global.css";
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { useColorScheme } from "nativewind";
 
 const queryClient = new QueryClient();
 
-export default function Layout() {
+export default function RootLayout() {
   const { colorScheme } = useColorScheme();
-  const getColor = (focused: boolean) => {
-    let color = ";";
-    if (focused) {
-      color = colorScheme === "dark" ? "#f1f1f1" : "#000";
-      return color;
-    }
-    color = colorScheme === "dark" ? "#ffffff70" : "#20202070"
-    return color;
-  }
   return (
-    <QueryClientProvider client={queryClient}>
-      <Tabs
-        screenOptions={
-          {
-            headerShown: false,   
-            tabBarShowLabel: false,
-            animation: "none",
-            tabBarStyle: {
-              backgroundColor: colorScheme === "dark" ? "#27272a" : "#fff"
-            },
-          }
-        }
-      >
-        <Tabs.Screen
-          name="index"
-          options={{
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+        <Stack
+          screenOptions={{
             headerShown: false,
-            tabBarIcon: ({ focused, color, size }) => {
-              const colorWhenFocused = getColor(focused);
-              return <Home size={size} color={colorWhenFocused} />
-            }
+            animation: "slide_from_right",
+            animationDuration: 2000
           }}
-        />
-        <Tabs.Screen
-          name="wallet"
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused, size }) => {
-              const colorWhenFocused = getColor(focused);
-              return <Wallet2Icon size={size} color={colorWhenFocused} />
-            }
-          }}
-        />
-        <Tabs.Screen
-          name="chat"
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused, size }) => {
-              const colorWhenFocused = getColor(focused);
-              return <MessageCircle size={size} color={colorWhenFocused} />
-            }
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            headerShown: false,
-            tabBarIcon: ({ focused, size }) => {
-              const colorWhenFocused = getColor(focused);
-              return <User size={size} color={colorWhenFocused} />
-            }
-          }}
-        />
-        <Tabs.Screen
-          name="+not-found"
-          options={{ href: null, }}
-        />
-        <Tabs.Screen
-          name="(card)"
-          options={{ href: null, }}
-        />
-      </Tabs>
-    </QueryClientProvider>
-
-  )
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="signup" />
+        </Stack>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
+  );
 }

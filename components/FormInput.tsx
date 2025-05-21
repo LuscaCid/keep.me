@@ -1,19 +1,24 @@
+import { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
 interface Props  {
   placeholder : string;
   name : string;
+  numberKeyboard? : boolean;
+  required? : boolean;
 }
-export function FormInput({ name, placeholder } : Props) {
-  const { control,  formState : { errors } } = useFormContext();
+export function FormInput({ name, placeholder, numberKeyboard, required } : Props) {
+  const { control, formState : { errors } } = useFormContext();
+
   return (
     <View>
       <Controller
         control={control}
-        rules={{ required: true }}
+        rules={{ required: required }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            className=" rounded-lg bg-white text-zinc-700 dark:bg-zinc-900 dark:placeholder:text-zinc-500 text-lg dark:text-zinc-100 px-3 py-2 w-full "
+            keyboardType={numberKeyboard ? "numeric" : "default"}
+            className=" rounded-lg bg-white text-zinc-700 dark:bg-zinc-900 dark:placeholder:text-zinc-500 text-lg dark:text-zinc-100 px-4 py-3 w-full "
             placeholder={placeholder}
             onBlur={onBlur}
             onChangeText={onChange}
@@ -21,9 +26,8 @@ export function FormInput({ name, placeholder } : Props) {
           />
         )}
         name={name}
-        defaultValue=""
       />
-      {errors.name && <Text>This is required.</Text>}
+      {errors[name] && <Text className="text-red-500 text-lg">{errors[name].message as string}</Text>}
 
     </View>
   );

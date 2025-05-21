@@ -1,83 +1,56 @@
-import { View, ScrollView, FlatList, SectionList, Text } from "react-native";
-import { HomeHeader } from "@/components/HomeHeader";
-import { WalletInfo } from "@/components/WalletInfo";
-import { IncomesOutcomesAmount } from "@/components/IncomesOutcomesAmount";
-import { FinancialWrapper } from "@/components/FinancialWrapper";
-import { EarningCard } from "@/components/EarningCard";
-import { SavingCard } from "@/components/SavingCard";
 import { ScreenWrapper } from "@/components/ScreenWrapper";
-import { Saving } from "@/@types/Saving";
-import { Transaction } from "@/@types/Transaction";
-import { TransactionCard } from "@/components/TransactionCard";
-import { savings } from "@/constants/savings";
-import { transactions } from "@/constants/transactions";
-import { earnings } from "@/constants/earnings";
-
-export default function HomeScreen() {
-  const renderItem = ({ item, index }: { item: Saving, index: number }) => {
-    const isOdd = index % 2 !== 0;
-    return <SavingCard
-      additionalClassname={`${!isOdd ? "mr-4" : "mr-0"}`}
-      saving={item}
-      key={item.id}
-      keyColor={item.id}
-    />
-  }
+import { Link, Redirect, useNavigation, useRouter } from "expo-router";
+import { useEffect } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import { SunMoon } from "lucide-react-native";
+import { useColorScheme } from "nativewind";
+import Hero from "../assets/images/Hero.png"
+export default function RedirectRoute() {
+  const navigate = useNavigation()
+  const { colorScheme, toggleColorScheme } = useColorScheme();
   return (
-    <ScreenWrapper>
-      
-        <HomeHeader />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerClassName=" flex flex-col gap-6 bg-zinc-100 dark:bg-zinc-950"
-      >
-        
-          <View className="flex flex-col gap-4 w-full">
-            <WalletInfo />
-            <IncomesOutcomesAmount />
-          </View>
-          <FinancialWrapper title="Earnings">
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            contentContainerClassName="gap-4 flex flex-row"
-            horizontal
-            data={earnings}
-            renderItem={({ item, index }) => (
-              <EarningCard keyColor={index} key={index} amount={item.amount} from={item.from} />
-            )}
+    <ScreenWrapper >
+      <View className="h-full w-full relative flex flex-col gap-2">
+        <View className="flex justify-between flex-row items-center px-4">
+          <Text className="text-4xl  dark:text-zinc-100 text-zinc-950 font-bold">
+            Keep.me
+          </Text>
+          <TouchableOpacity className="p-4" onPress={toggleColorScheme}>
+            <SunMoon size={30} color={colorScheme === "dark" ? "#fff" : "#000"} />
+          </TouchableOpacity>
+        </View>
+        <View className="flex flex-col items-start gap-6 w-full">
+          <Text className="text-3xl p-4 dark:text-zinc-100 w-full text-left text-zinc-950 font-bold">
+            Your finance app
+          </Text>
+          <Image
+            className="mb-5 w-full min-h-min"
+            source={Hero}
           />
-        </FinancialWrapper>
-        
-          <View>
-            <FinancialWrapper title="Savings">
-              <FlatList
-                data={savings}
-                renderItem={renderItem}
-                numColumns={2}
-                className=""
-                contentContainerClassName="gap-4 pr-[1px]"
-                scrollEnabled={false}
-              />
-            </FinancialWrapper>
-            <FinancialWrapper title="Transactions">
-              <SectionList
-                contentContainerClassName="flex flex-col gap-2"
-                showsHorizontalScrollIndicator={false}
-                scrollEnabled={false}
-                sections={transactions}
-                renderSectionHeader={({ section: { title } }) => (
-                  <Text className="text-zinc-400 dark:text-zinc-600 font-medium text-lg">
-                    {title}
-                  </Text>
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => (
-                  <TransactionCard transaction={item as Transaction} key={item.id} />
-                )}
-              />
-            </FinancialWrapper>
-          </View>
-        </ScrollView>
+          <Text className="text-4xl w-full font-bold text-left text-wrap dark:text-zinc-50">
+            Make Your Financial Management Easier
+          </Text>
+          <Text className="text-2xl  dark:text-zinc-50 text-wrap w-full ">
+            Financy is a mobile application that can help you manage your finances in a simple way.
+          </Text>
+        </View>
+        <View className="absolute flex flex-col gap-2 bottom-10 left-4 right-4">
+          <Link className="rounded-2xl flex w-full items-center justify-center p-4   bg-zinc-800 dark:bg-zinc-200" href={"/signup"}>
+            <Text className="m-auto text-center text-zinc-50 dark:text-zinc-900 w-full">
+              New account
+            </Text>
+          </Link>
+          <Link
+            href={{ pathname: "/(tabs)/home" }}
+            className="rounded-2xl flex w-full items-center justify-center p-4   bg-zinc-800 dark:bg-zinc-200"
+          >
+            <Text className="m-auto text-center text-zinc-50 dark:text-zinc-900 ">
+              Join app
+            </Text>
+          </Link>
+        </View>
+
+      </View>
     </ScreenWrapper>
-  );
+  )
 }

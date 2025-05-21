@@ -5,6 +5,8 @@ export interface Transaction {
   item : string;
   date : Date|string;
   type : TransactionType;
+  whereFrom : "credit-card" | "money" | "bank";
+  fromId : string; 
 }
 export type TransactionCategory = "subscription-fee" | "shopping" | "bill" | "saving" | "salary";
 

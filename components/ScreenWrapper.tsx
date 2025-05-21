@@ -1,20 +1,41 @@
 import { useDropdow } from "@/store/dropdown";
 import { useColorScheme } from "nativewind";
 import { ReactNode } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DropdownButton } from "./GenericalHeader";
+import { ArrowRight, Settings, SunMoon, User } from "lucide-react-native";
 
-export function ScreenWrapper({ children, className }: { children: ReactNode, className?: string }) {
-  const { colorScheme } = useColorScheme();
-  const { isOpen, setIsOpen } = useDropdow();  
+interface Props {
+  children: ReactNode; 
+  className? : string;
+  dropdown?: ReactNode;
+}
+export function ScreenWrapper({ children, className, dropdown }: Props) {
+  const { toggleColorScheme } = useColorScheme();
+  const { isOpen, setIsOpen } = useDropdow();
+
+  const onPress = () => {
+    toggleColorScheme();
+    setIsOpen(false);
+  }
   return (
     <SafeAreaView
       className={"bg-zinc-100 dark:bg-zinc-950 h-full w-full px-4 " + className}
-      style={{ backgroundColor: colorScheme === "dark" ? "#09090b" : "#f4f4f5" }}
       edges={["top"]}
     >
       {isOpen && (
-        <TouchableOpacity onPress={() => setIsOpen(false)} className="absolute inset-0 z-[10000] bg-zinc-950/80">
+        <TouchableOpacity onPress={() => setIsOpen(false)} className="absolute inset-0 z-[1000] bg-transparent">
+          <View
+            className=" right-5 top-16 mt-20 z-[10000] dark:bg-zinc-800 flex flex-col  bg-zinc-100 rounded-2xl border border-zinc-200 dark:border-zinc-800 absolute"
+          >
+            {dropdown}
+            <DropdownButton icon={SunMoon} onPress={onPress} title="Theme" />
+            <DropdownButton icon={User} onPress={onPress} title="Account" />
+            <DropdownButton icon={Settings} onPress={onPress} title="Settings" />
+            <View className="w-full h-[1px] my-1 bg-zinc-300 dark:bg-zinc-700"></View>
+            <DropdownButton icon={ArrowRight} onPress={onPress} title="Logout" />
+          </View>
         </TouchableOpacity>
       )}
       {children}
