@@ -1,15 +1,59 @@
 import { Icon } from "@/UI/Icon";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { SunMoon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import Hero from "../assets/images/Hero.png";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
+import { useCallback, useRef, useState } from "react";
+import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { ButtonSubmit } from "@/UI/ButtonSubmit";
+import { Checkbox } from "expo-checkbox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StorageKeys } from "@/constants/storageKeys";
 export default function RedirectRoute() {
-  const navigate = useNavigation()
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const router = useRouter()
+  const [ checked, setChecked ] = useState(false);
+  const { toggleColorScheme } = useColorScheme();
+  const redirectBottomSheet = useRef<BottomSheetMethods>(null);
+
+  const askUserForAutomaticRedirect = useCallback(() => {
+    redirectBottomSheet.current?.expand();
+  }, [redirectBottomSheet])
+
+  const handleNavigateToHome = useCallback(async () => {
+    if (checked) {
+      await AsyncStorage.setItem(StorageKeys.skipIndex, JSON.stringify(true));
+    }
+    router.push({ pathname: "/(tabs)/home" })
+  }, [router])
+
   return (
-    <ScreenWrapper >
+    <ScreenWrapper
+      bottomSheets={[
+        {
+          ref: redirectBottomSheet,
+          children: (
+            <View className="flex flex-col gap-4 w-full">
+              <View className="flex flex-row items-center gap-4">
+                <Text className="text-lg font-semibold dark:text-zinc-100">
+                  Abrir o aplicativo automaticamente da proxima vez?
+                </Text>
+                <Checkbox
+                  onValueChange={setChecked}
+                  value={checked}
+                />
+              </View>
+              <ButtonSubmit
+                title="Join"
+                onPress={handleNavigateToHome}
+              />
+            </View>
+          ),
+          snapPoints: ['15%']
+        }
+      ]}
+    >
       <View className="h-full w-full relative flex flex-col gap-2">
         <View className="flex justify-between flex-row items-center px-4">
           <Text className="text-4xl  dark:text-zinc-100 text-zinc-950 font-bold">
@@ -40,16 +84,15 @@ export default function RedirectRoute() {
               New account
             </Text>
           </Link>
-          <Link
-            href={{ pathname: "/(tabs)/home" }}
+          <TouchableOpacity
+            onPress={askUserForAutomaticRedirect}
             className="rounded-2xl flex w-full items-center justify-center p-4   bg-zinc-800 dark:bg-zinc-200"
           >
             <Text className="m-auto text-center text-zinc-50 dark:text-zinc-900 ">
               Join app
             </Text>
-          </Link>
+          </TouchableOpacity>
         </View>
-
       </View>
     </ScreenWrapper>
   )

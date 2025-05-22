@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
-interface Props <T extends string> {
-  placeholder : string;
-  name : T;
-  numberKeyboard? : boolean;
-  required? : boolean;
+interface Props<T extends string> {
+  placeholder: string;
+  name: T;
+  numberKeyboard?: boolean;
+  required?: boolean;
 }
-export function FormInput<T extends string>({ name, placeholder, numberKeyboard, required } : Props<T>) {
-  const { register, control, formState : { errors } } = useFormContext();
+export function FormInput<T extends string>({ name, placeholder, numberKeyboard, required }: Props<T>) {
+  const { register, control, formState: { errors } } = useFormContext();
 
   return (
     <View>

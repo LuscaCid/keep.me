@@ -25,6 +25,8 @@ export default function Layout() {
     <Tabs
       screenOptions={
         {
+          freezeOnBlur : true,
+          sceneStyle : {backgroundColor : colorScheme === "dark" ? "#27272a" : "#fff"} ,
           headerShown: false,
           tabBarShowLabel: false,
           animation: "none",

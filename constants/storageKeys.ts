@@ -1,3 +1,6 @@
 export class StorageKeys {
-  static user = "@keep-me/user-token"
+  private static prefix = "@keep-me/";
+
+  static user = StorageKeys.prefix + "user-token";
+  static skipIndex = StorageKeys.prefix + "skip-index";
 }

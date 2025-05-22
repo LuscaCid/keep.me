@@ -10,9 +10,9 @@ interface Props {
   children: ReactNode;
   className?: string;
   dropdown?: ReactNode;
-  bottomSheet?: BottomSheetWrapperProps
+  bottomSheets?: BottomSheetWrapperProps[]
 }
-export function ScreenWrapper({ children, className, dropdown, bottomSheet }: Props) {
+export function ScreenWrapper({ children, className, dropdown, bottomSheets }: Props) {
   const { toggleColorScheme } = useColorScheme();
   const { isOpen, setIsOpen } = useDropdow();
 
@@ -27,7 +27,7 @@ export function ScreenWrapper({ children, className, dropdown, bottomSheet }: Pr
     >
       {isOpen && (
         <TouchableOpacity onPress={() => setIsOpen(false)} className="absolute inset-0 z-[1000] bg-transparent">
-          <View 
+          <View
             className=" right-5 top-16 mt-20 z-[10000] dark:bg-zinc-800 flex flex-col  bg-zinc-100 rounded-2xl border border-zinc-200 dark:border-zinc-800 absolute"
           >
             {dropdown}
@@ -41,10 +41,18 @@ export function ScreenWrapper({ children, className, dropdown, bottomSheet }: Pr
       )}
       {children}
       {
-        bottomSheet && (
-          <BottomSheetWrapper ref={bottomSheet.ref} onChange={bottomSheet.onChange} >
-            {bottomSheet.children}
-          </BottomSheetWrapper>
+        bottomSheets && bottomSheets.length > 0 && (
+          bottomSheets.map((bottomSheet, idx) => (
+            <BottomSheetWrapper
+              key={idx}
+              index={bottomSheet.index}
+              snapPoints={bottomSheet.snapPoints}
+              ref={bottomSheet.ref}
+              onChange={bottomSheet.onChange}
+            >
+              {bottomSheet.children}
+            </BottomSheetWrapper>
+          ))
         )
       }
     </SafeAreaView>

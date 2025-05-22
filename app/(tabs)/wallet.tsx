@@ -1,9 +1,12 @@
+import { CreditCard as CreditCardType } from "@/@types/CreditCard";
 import { Transaction } from "@/@types/Transaction";
 import { AppScrollView } from "@/components/AppScrollView";
 import { CreditCardComponent } from "@/components/CreditCard";
+import { CreditCardBottomSheet } from "@/components/CreditCardBottomSheetForm";
 import { FinancialWrapper } from "@/components/FinancialWrapper";
 import { DropdownButton, GenericalHeader } from "@/components/GenericalHeader";
 import { TransactionCard } from "@/components/TransactionCard";
+import { TransactionFormBottomSheet } from "@/components/TransactionFormBottomSheet";
 import { creditCards } from "@/constants/creditCards";
 import { FormSchemaFactory } from "@/constants/formSchemas";
 import { transactions } from "@/constants/transactions";
@@ -11,10 +14,11 @@ import { useDropdow } from "@/store/dropdown";
 import { ButtonSubmit } from "@/UI/ButtonSubmit";
 import { FormInput } from "@/UI/FormInput";
 import { Icon } from "@/UI/Icon";
+import { InputButton } from "@/UI/InputButton";
 import { RadioGroup, RadioItem } from "@/UI/RadioGroup";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
 import { api } from "@/utils/api";
-import { TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
+import { SNAP_POINT_TYPE, TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -26,21 +30,27 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Keyboard, SectionList, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 
-type FormTransactionType = z.infer<typeof FormSchemaFactory.formTransactionSchema>;
-type KeyofFormTransaction = keyof FormTransactionType;
+export type FormTransactionType = z.infer<typeof FormSchemaFactory.formTransactionSchema>;
+export type KeyofFormTransaction = keyof FormTransactionType;
 
 export default function WalletScreen() {
-
-  const { colorScheme } = useColorScheme();
-  const setIsOpen = useDropdow(state => state.setIsOpen);
-  const router = useRouter();
-  const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const [transactionToEdit] = useState<Transaction | undefined>(undefined);
+  const [creditCardSelected, setCreditCardSelected] = useState<CreditCardType | undefined>(undefined);
+
   const [items, setItems] = useState<RadioItem[]>([
     { label: <Icon icon={ArrowUp} color="green" />, value: "receipt", selected: true },
     { label: <Icon icon={ArrowRightLeft} />, value: "transaction", selected: false },
     { label: <Icon icon={ArrowDown} color="red" />, value: "expense", selected: false }
   ]);
+
+  const router = useRouter();
+  const { colorScheme } = useColorScheme();
+  const setIsOpen = useDropdow(state => state.setIsOpen);
+
+  const bottomSheetRef = useRef<BottomSheetMethods>(null);
+  const cardBottomSheetRef = useRef<BottomSheetMethods>(null);
+  const creditCardsBottomSheetRef = useRef<BottomSheetMethods>(null);
+
   const methods = useForm<FormTransactionType>({
     resolver: zodResolver(FormSchemaFactory.formTransactionSchema),
     defaultValues: {
@@ -52,19 +62,17 @@ export default function WalletScreen() {
   const { mutateAsync: addOutcomeAsync, isPending } = useMutation({
     mutationFn: async (data: FormTransactionType) => {
       await new Promise((reject, resolve) => setTimeout(resolve, 1000));
-    }
-  })
-  const { data, isLoading, isFetching, isError, refetch } = useQuery({
-    queryFn: async () => {
-      return await api.get("credit-cards");
     },
-    queryKey: ["credit-card"],
-    staleTime: 1000 * 60 * 5,
-    enabled: false,
-    refetchInterval: 1000,
-    refetchOnWindowFocus: true,
-    retry: 3
-  });
+    mutationKey: ["create-transaction"]
+  })
+  const onChangeBottomSheetHeight = useCallback((index: number, position: number, type: SNAP_POINT_TYPE) => {
+    if (index === -1) Keyboard.dismiss();
+  }, []);
+  
+  const handleOpenCreditCardsBottomSheet = useCallback(() => {
+    creditCardsBottomSheetRef.current?.expand();
+  }, [creditCardsBottomSheetRef]);
+
   const handleOpenTransactionBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
     setItems([
@@ -74,51 +82,58 @@ export default function WalletScreen() {
     ]);
   }, [bottomSheetRef])
 
-  const handleNavigateToNewCard = useCallback(() => {
+  const handleOpenCardBottomSheet = useCallback(() => {
     setIsOpen(false);
-    router.push({ pathname: "/card/[id]", params: { id: "0" } });
+    cardBottomSheetRef.current?.expand();
   }, [router, setIsOpen]);
+
   const handleSubmitTransactionForm = useCallback(async (data: FormTransactionType) => {
-    console.log(data);
     await addOutcomeAsync(data);
-  }, [addOutcomeAsync])
+  }, [addOutcomeAsync]);
+
   return (
     <ScreenWrapper
-      bottomSheet={{
-        ref: bottomSheetRef,
-        children: (
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <FormProvider {...methods}>
-              <View className="flex flex-col gap-4 ">
-                <Text className="text-2xl font-medium dark:text-zinc-200">
-                  Add transaction
-                </Text>
-                <FormInput<KeyofFormTransaction>
-                  name="value"
-                  placeholder="Transaction value"
-                  numberKeyboard
-                />
-                <FormInput<KeyofFormTransaction>
-                  name="creditCard"
-                  placeholder="Select credit card"
-                />
-                <RadioGroup setItems={setItems} items={items} />
-                <ButtonSubmit
-                  isPending={isPending}
-                  titleWhenIsPending="Saving"
-                  onPress={methods.handleSubmit(handleSubmitTransactionForm)}
-                  title="Add"
-                />
-              </View>
-            </FormProvider>
-          </TouchableWithoutFeedback>
-
-        )
-      }}
+      bottomSheets={[
+        {
+          ref: bottomSheetRef,
+          onChange : onChangeBottomSheetHeight,
+          children: (
+            <TransactionFormBottomSheet
+              handleOpenCreditCardsBottomSheet={handleOpenCreditCardsBottomSheet}
+              handleSubmitTransactionForm={handleSubmitTransactionForm}
+              isPending={isPending}
+              items={items}
+              methods={methods}
+              setItems={setItems}
+            />
+          ),
+          snapPoints: ["10%", "40%", "70%"]
+        },
+        {
+          onChange: onChangeBottomSheetHeight,
+          ref: cardBottomSheetRef,
+          children: <CreditCardBottomSheet />,
+          snapPoints: ["30%", "50%", "80%"],
+          index: -1
+        },
+        {
+          ref: creditCardsBottomSheetRef,
+          onChange : onChangeBottomSheetHeight,
+          children: (
+            <View>
+              <Text>
+                Cartoes de credito
+              </Text>
+            </View>
+          ),
+          index: -1,
+          snapPoints: ["40%", "70%"]
+        }
+      ]}
       dropdown={
         <DropdownButton
           icon={CreditCard}
-          onPress={handleNavigateToNewCard}
+          onPress={handleOpenCardBottomSheet}
           title="New card"
         />
       }
@@ -128,7 +143,7 @@ export default function WalletScreen() {
         <View className="flex flex-row gap-4">
           <AppScrollView horizontal contentContainerClassName="flex flex-row gap-4" >
             <TouchableOpacity
-              onPress={handleNavigateToNewCard}
+              onPress={handleOpenCardBottomSheet}
               className="flex items-center justify-center p-4 border rounded-2xl border-dashed dark:border-zinc-400 border-zinc-500"
             >
               <Icon icon={PlusCircle} />

@@ -6,12 +6,14 @@ export interface RadioItem {
   label : string|ReactNode;
   selected? : boolean;
 }
-type Props = PropsWithChildren<{
+type Props = {
   items : RadioItem[];
   setItems : Dispatch<SetStateAction<RadioItem[]>>
-}>
+  onChange : (selected : RadioItem) => void;
+}
 
-export function RadioGroup ({ children, items, setItems } : Props){
+export function RadioGroup ({ items, setItems, onChange } : Props){
+  
   const handleSelect = useCallback((item : RadioItem) => {
     const updatedItems = items
     .map(itemUp => ({ ...itemUp, selected : false }))
@@ -22,7 +24,9 @@ export function RadioGroup ({ children, items, setItems } : Props){
       return itemUp;
     })
     setItems(updatedItems);  
+    onChange(item);
   }, [ items, setItems ]);
+
 
   return (
     <View className="flex flex-row gap-2 items-center">
@@ -50,7 +54,7 @@ export function RadioGroupItem ({ children, item, handleSelect } : ItemProps) {
   return (
     <TouchableOpacity 
       onPress={() => handleSelect(item)}
-      className={`rounded-md h-16 p-2 flex flex-1 items-center justify-center ${item.selected ? "bg-zinc-400 dark:bg-zinc-900" : "bg-zinc-200 dark:bg-zinc-700"}`}
+      className={`rounded-md h-16 p-2 flex flex-1 items-center justify-center ${item.selected ? "bg-zinc-400 dark:bg-zinc-900" : "bg-zinc-200 dark:bg-zinc-700"} transition duration-150`}
     >
       { children }
     </TouchableOpacity>

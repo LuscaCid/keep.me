@@ -13,7 +13,9 @@ export class FormSchemaFactory {
   static formTransactionSchema = z.object({
     value : z.string(),
     type : z.string(),
-    creditCard : z.string()
+    creditCard : z.string(),
+    fixed : z.boolean().optional(),
+    paid : z.boolean().optional()
   })
   static formTest = z.object({
     name : z.string()
