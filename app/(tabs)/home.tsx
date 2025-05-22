@@ -5,13 +5,13 @@ import { IncomesOutcomesAmount } from "@/components/IncomesOutcomesAmount";
 import { FinancialWrapper } from "@/components/FinancialWrapper";
 import { EarningCard } from "@/components/EarningCard";
 import { SavingCard } from "@/components/SavingCard";
-import { ScreenWrapper } from "@/components/ScreenWrapper";
 import { Saving } from "@/@types/Saving";
 import { Transaction } from "@/@types/Transaction";
 import { TransactionCard } from "@/components/TransactionCard";
 import { savings } from "@/constants/savings";
 import { transactions } from "@/constants/transactions";
 import { earnings } from "@/constants/earnings";
+import { ScreenWrapper } from "@/UI/ScreenWrapper";
 
 export default function HomeScreen() {
   const renderItem = ({ item, index }: { item: Saving, index: number }) => {

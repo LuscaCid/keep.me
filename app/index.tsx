@@ -1,10 +1,10 @@
-import { ScreenWrapper } from "@/components/ScreenWrapper";
-import { Link, Redirect, useNavigation, useRouter } from "expo-router";
-import { useEffect } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Icon } from "@/UI/Icon";
+import { Link, useNavigation } from "expo-router";
 import { SunMoon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
-import Hero from "../assets/images/Hero.png"
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import Hero from "../assets/images/Hero.png";
+import { ScreenWrapper } from "@/UI/ScreenWrapper";
 export default function RedirectRoute() {
   const navigate = useNavigation()
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -16,7 +16,7 @@ export default function RedirectRoute() {
             Keep.me
           </Text>
           <TouchableOpacity className="p-4" onPress={toggleColorScheme}>
-            <SunMoon size={30} color={colorScheme === "dark" ? "#fff" : "#000"} />
+            <Icon icon={SunMoon} />
           </TouchableOpacity>
         </View>
         <View className="flex flex-col items-start gap-6 w-full">

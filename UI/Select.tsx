@@ -37,8 +37,6 @@ export function Select({ onChangeValue, items, placeholder } : Props) {
       onValueChange={onChangeValue}
       items={items}
       placeholder={placeholder}
-      
     />
-
   );
 }

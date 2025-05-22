@@ -1,5 +1,5 @@
 import { GenericalHeader } from "@/components/GenericalHeader";
-import { ScreenWrapper } from "@/components/ScreenWrapper";
+import { ScreenWrapper } from "@/UI/ScreenWrapper";
 import { Text, View } from "react-native";
 
 export default function ChatScreen () {

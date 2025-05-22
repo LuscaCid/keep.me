@@ -1,6 +1,7 @@
 import { useDropdow } from "@/store/dropdown";
+import { Icon } from "@/UI/Icon";
 import { Href, useNavigation, useRouter } from "expo-router";
-import { ArrowRight, ChevronLeft, EllipsisVertical, LucideIcon, SunMoon, User } from "lucide-react-native";
+import { ChevronLeft, EllipsisVertical, LucideIcon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { ReactNode } from "react";
 import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
@@ -44,19 +45,6 @@ export function GenericalHeader({ dropdown, title, backRoute }: Props) {
       >
         <EllipsisVertical size={20} color={color} />
       </TouchableOpacity>
-      {/* {
-        isOpen && (
-          <View
-            className=" right-5 top-16 z-[1000000] dark:bg-zinc-800 flex flex-col  bg-zinc-100 rounded-2xl border border-zinc-200 dark:border-zinc-800 absolute"
-          >
-            {dropdown}
-            <DropdownButton icon={SunMoon} onPress={onPress} title="Theme" />
-            <DropdownButton icon={User} onPress={onPress} title="Account" />
-            <View className="w-full h-[1px] my-1 bg-zinc-300 dark:bg-zinc-700"></View>
-            <DropdownButton icon={ArrowRight} onPress={onPress} title="Logout" />
-          </View>
-        )
-      } */}
     </View>
   );
 }
@@ -65,9 +53,7 @@ interface DropdownButtonProps {
   onPress: (e: GestureResponderEvent) => void;
   icon: LucideIcon;
 }
-export function DropdownButton({ onPress, title, icon: Icon }: DropdownButtonProps) {
-  const { colorScheme } = useColorScheme();
-
+export function DropdownButton({ onPress, title, icon }: DropdownButtonProps) {
   return (
     <TouchableOpacity
       className="flex flex-row gap-4 my-2 mx-4 items-center justify-between"
@@ -76,7 +62,7 @@ export function DropdownButton({ onPress, title, icon: Icon }: DropdownButtonPro
       <Text className="text-lg text-zinc-900 dark:text-zinc-100">
         {title}
       </Text>
-      <Icon size={20} color={colorScheme === "dark" ? "#fff" : "#000"} />
+      <Icon icon={icon} />
     </TouchableOpacity>
   )
 }

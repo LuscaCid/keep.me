@@ -1,35 +1,35 @@
 import { GenericalHeader } from "@/components/GenericalHeader";
-import { ScreenWrapper } from "@/components/ScreenWrapper";
 import { useLocalSearchParams } from "expo-router";
-import { Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { Keyboard, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 // import { useQueryClient } from "@tanstack/react-query";
 import { CreditCard } from "@/@types/CreditCard";
-import { FormInput } from "@/components/FormInput";
+import { FieldSet } from "@/UI/FieldSet";
+import { banks } from "@/constants/banks";
+import { cardBrands } from "@/constants/cardBrands";
+import { FormSchemaFactory } from "@/constants/formSchemas";
+import { FormInput } from "@/UI/FormInput";
+import { Select } from "@/UI/Select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowRight } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { z } from "zod";
-import { FormSchemaFactory } from "@/constants/formSchemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { cardBrands } from "@/constants/cardBrands";
-import { banks } from "@/constants/banks";
-import { Select } from "@/components/Select";
-import { FieldSet } from "@/components/FieldSet";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ScreenWrapper } from "@/UI/ScreenWrapper";
 
 type CreditCardFormType = z.infer<typeof FormSchemaFactory.formCreditCardSchema>;
 export default function CreditCardScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const queryClient = useQueryClient();
   const { colorScheme } = useColorScheme();
-  const { mutateAsync : createCardAsync, isPending, isError } = useMutation({
-    mutationFn : async (data : CreditCardFormType) => {
+  const { mutateAsync: createCardAsync, isPending, isError } = useMutation({
+    mutationFn: async (data: CreditCardFormType) => {
       // const response = await api.post("credit-card/add-one", { data })
       // return response.data;
       console.log(data);
     },
-    onSuccess : () => {
+    onSuccess: () => {
       // openToast();
     }
   });
@@ -45,18 +45,18 @@ export default function CreditCardScreen() {
       name: creditCardToEdit ? creditCardToEdit.name : "",
     }
   });
-  const handleSubmitForm = async(data: CreditCardFormType) => {
-    console.log(data, "aaaaa");
+  const handleSubmitForm = useCallback(async (data: CreditCardFormType) => {
     const dataResponse = await createCardAsync(data);
     queryClient.setQueryData(
-      ["credit-cards"], 
-      (prev : CreditCard[]) => [...prev, dataResponse]);
-  }
+      ["credit-cards"],
+      (prev: CreditCard[]) => [...prev, dataResponse]);
+  }, [queryClient, createCardAsync]);
+
   useEffect(() => {
     const cachedCreditCards = queryClient.getQueryData(["credit-cards"]) as CreditCard[] ?? [];
     setCreditCardToEdit(cachedCreditCards.find((creditCard) => creditCard.id === id));
   }, [id, queryClient]);
-  
+
   return (
     <ScreenWrapper className=" flex flex-col gap-5">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

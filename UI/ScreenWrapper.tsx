@@ -1,17 +1,19 @@
+import { BottomSheetWrapper, BottomSheetWrapperProps } from "@/components/BottomSheetWrapper";
+import { DropdownButton } from "@/components/GenericalHeader";
 import { useDropdow } from "@/store/dropdown";
+import { ArrowRight, Settings, SunMoon, User } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { ReactNode } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { DropdownButton } from "./GenericalHeader";
-import { ArrowRight, Settings, SunMoon, User } from "lucide-react-native";
 
 interface Props {
-  children: ReactNode; 
-  className? : string;
+  children: ReactNode;
+  className?: string;
   dropdown?: ReactNode;
+  bottomSheet?: BottomSheetWrapperProps
 }
-export function ScreenWrapper({ children, className, dropdown }: Props) {
+export function ScreenWrapper({ children, className, dropdown, bottomSheet }: Props) {
   const { toggleColorScheme } = useColorScheme();
   const { isOpen, setIsOpen } = useDropdow();
 
@@ -39,6 +41,13 @@ export function ScreenWrapper({ children, className, dropdown }: Props) {
         </TouchableOpacity>
       )}
       {children}
+      {
+        bottomSheet && (
+          <BottomSheetWrapper ref={bottomSheet.ref} onChange={bottomSheet.onChange} >
+            {bottomSheet.children}
+          </BottomSheetWrapper>
+        )
+      }
     </SafeAreaView>
   );
 }
