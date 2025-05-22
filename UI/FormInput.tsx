@@ -8,7 +8,7 @@ interface Props <T extends string> {
   required? : boolean;
 }
 export function FormInput<T extends string>({ name, placeholder, numberKeyboard, required } : Props<T>) {
-  const { control, formState : { errors } } = useFormContext();
+  const { register, control, formState : { errors } } = useFormContext();
 
   return (
     <View>
@@ -18,13 +18,14 @@ export function FormInput<T extends string>({ name, placeholder, numberKeyboard,
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             keyboardType={numberKeyboard ? "numeric" : "default"}
-            className=" rounded-lg bg-white text-zinc-700 dark:bg-zinc-900 dark:placeholder:text-zinc-500 text-lg dark:text-zinc-100 px-4 py-3 w-full "
+            className=" rounded-md bg-white text-zinc-700 dark:bg-zinc-900 dark:placeholder:text-zinc-500 text-lg dark:text-zinc-100 px-4 py-3 w-full "
             placeholder={placeholder}
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
           />
         )}
+        {...register(name)}
         name={name}
       />
       {errors[name] && <Text className="text-red-500 text-lg">{errors[name].message as string}</Text>}

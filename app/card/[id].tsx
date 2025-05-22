@@ -17,6 +17,7 @@ import { ArrowRight } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { z } from "zod";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
+import { ButtonSubmit } from "@/UI/ButtonSubmit";
 
 type CreditCardFormType = z.infer<typeof FormSchemaFactory.formCreditCardSchema>;
 export default function CreditCardScreen() {
@@ -100,15 +101,11 @@ export default function CreditCardScreen() {
                 } />
             </View>
           </FormProvider>
-          <TouchableOpacity
-            className="bg-blue-500 p-4 rounded-2xl absolute ml-2  flex flex-row items-center gap-2 justify-center bottom-10 right-4 left-4 "
+          <ButtonSubmit
             onPress={methods.handleSubmit(handleSubmitForm)}
-          >
-            <Text className=" text-lg font-bold  text-zinc-100">
-              {creditCardToEdit ? "Edit" : "Add"}
-            </Text>
-            <ArrowRight size={20} color={"#fff"} />
-          </TouchableOpacity>
+            title={creditCardToEdit ? "Edit" : "Add"}
+            isPending={isPending}
+          />
         </View>
       </TouchableWithoutFeedback>
     </ScreenWrapper>

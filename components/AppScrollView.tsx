@@ -1,10 +1,11 @@
-import { ReactNode } from "react";
+import { PropsWithChildren } from "react";
 import { ScrollView } from "react-native";
-interface Props {
-  children : ReactNode;
+
+type Props = PropsWithChildren<{
   contentContainerClassName? : string;
   horizontal? : boolean;
-}
+}>
+
 export function AppScrollView({ 
   children, 
   horizontal,

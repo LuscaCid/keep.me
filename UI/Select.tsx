@@ -1,11 +1,11 @@
 import { useColorScheme } from 'nativewind';
 import SelectNative, { Item } from 'react-native-picker-select';
 interface Props {
-  items : Item[];
-  placeholder? : string;
-  onChangeValue : (value: any, index: number) => void;
+  items: Item[];
+  placeholder?: string;
+  onChangeValue: (value: any, index: number) => void;
 }
-export function Select({ onChangeValue, items, placeholder } : Props) {
+export function Select({ onChangeValue, items, placeholder }: Props) {
   const { colorScheme } = useColorScheme();
   const backgroundColor = colorScheme === "dark" ? "#18181b" : "#fff";
   const textColor = colorScheme === "dark" ? "#f4f4f5" : "#3f3f46";
@@ -15,6 +15,7 @@ export function Select({ onChangeValue, items, placeholder } : Props) {
       pickerProps={{ className: "bg-zinc-200" }}
       style={{
         inputAndroid: {
+          backdropFilter : "blur(10px)",
           backgroundColor: backgroundColor,
           color: textColor,
           paddingVertical: 10,
@@ -25,7 +26,7 @@ export function Select({ onChangeValue, items, placeholder } : Props) {
         inputIOS: {
           backgroundColor: backgroundColor,
           color: textColor,
-           paddingVertical: 10,
+          paddingVertical: 10,
           fontSize: 16,
           paddingHorizontal: 10,
           borderRadius: 8,

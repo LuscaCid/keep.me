@@ -6,7 +6,6 @@ import { useColorScheme } from "nativewind";
 import { ReactNode } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 interface Props {
   children: ReactNode;
   className?: string;
@@ -28,7 +27,7 @@ export function ScreenWrapper({ children, className, dropdown, bottomSheet }: Pr
     >
       {isOpen && (
         <TouchableOpacity onPress={() => setIsOpen(false)} className="absolute inset-0 z-[1000] bg-transparent">
-          <View
+          <View 
             className=" right-5 top-16 mt-20 z-[10000] dark:bg-zinc-800 flex flex-col  bg-zinc-100 rounded-2xl border border-zinc-200 dark:border-zinc-800 absolute"
           >
             {dropdown}

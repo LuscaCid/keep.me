@@ -15,7 +15,7 @@ export function GenericalHeader({ dropdown, title, backRoute }: Props) {
   const { isOpen, setIsOpen } = useDropdow();
   const navigate = useNavigation();
   const router = useRouter();
-  const { colorScheme, toggleColorScheme } = useColorScheme();
+  const { colorScheme } = useColorScheme();
   const color = colorScheme === "dark" ? "#f1f1f1" : "#000"
 
   const handleNavigate = () => {
@@ -25,10 +25,6 @@ export function GenericalHeader({ dropdown, title, backRoute }: Props) {
       return;
     }
     navigate.goBack();
-  }
-  const onPress = () => {
-    toggleColorScheme();
-    setIsOpen(false);
   }
 
   return (

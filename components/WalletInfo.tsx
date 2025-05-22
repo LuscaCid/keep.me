@@ -23,14 +23,16 @@ export function WalletInfo() {
           {formatToBrl(25000)}
         </Text>
       </View>
-      <View className="absolute bottom-3 right-3 flex flex-row items-center gap-2 self-end">
-        <Text className="text-zinc-200 text-lg">
-          My Wallet
-        </Text>
-        <TouchableOpacity onPress={handleNavigateToWallet} className="flex items-center p-3 rounded-full bg-zinc-200">
-          <ArrowRight strokeWidth={3} size={20} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={handleNavigateToWallet} className="absolute bottom-3 right-3 flex-row flex items-center ">
+        <View className="flex flex-row items-center gap-2 self-end">
+          <Text className="text-zinc-200 text-lg">
+            My Wallet
+          </Text>
+          <View className="p-3 rounded-full bg-zinc-200">
+            <ArrowRight strokeWidth={3} size={20} />
+          </View>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }

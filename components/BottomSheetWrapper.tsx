@@ -7,16 +7,22 @@ import { StyleSheet } from "react-native";
 export type BottomSheetWrapperProps = PropsWithChildren<{
   onChange? : (index: number, position: number, type: SNAP_POINT_TYPE) => void;
   ref : RefObject<BottomSheetMethods | null>;
+  snapPoints? : string[]
 }>;
 
-export function BottomSheetWrapper({ onChange, ref, children } : BottomSheetWrapperProps) {
-  const snapPoints = useMemo(() => ['10%', '40%', '80%'], []);
+export function BottomSheetWrapper({ 
+  onChange, 
+  ref, 
+  children ,
+  snapPoints = [ '10%', '40%', '70%' ]
+} : BottomSheetWrapperProps) {
+  const sheetSnapPoints = useMemo(() => snapPoints, [snapPoints]);
   const { colorScheme } = useColorScheme()
 
   return (
     <BottomSheet
       index={0}
-      snapPoints={snapPoints}
+      snapPoints={sheetSnapPoints}
       containerStyle={styles.container}
       ref={ref}
       handleStyle={{ 

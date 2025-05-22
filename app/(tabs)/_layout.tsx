@@ -25,8 +25,6 @@ export default function Layout() {
     <Tabs
       screenOptions={
         {
-          transitionSpec : { animation : "spring", config : { delay : 120 }},
-          // lazy : false,
           headerShown: false,
           tabBarShowLabel: false,
           animation: "none",
@@ -39,7 +37,6 @@ export default function Layout() {
       <Tabs.Screen
         name="home"
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             const colorWhenFocused = getColor(focused);
             return <Home size={size} color={colorWhenFocused} />
@@ -49,7 +46,6 @@ export default function Layout() {
       <Tabs.Screen
         name="wallet"
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused, size }) => {
             const colorWhenFocused = getColor(focused);
             return <Wallet2Icon size={size} color={colorWhenFocused} />
@@ -59,7 +55,6 @@ export default function Layout() {
       <Tabs.Screen
         name="chat"
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused, size }) => {
             const colorWhenFocused = getColor(focused);
             return <MessageCircle size={size} color={colorWhenFocused} />
@@ -69,7 +64,6 @@ export default function Layout() {
       <Tabs.Screen
         name="profile"
         options={{
-          headerShown: false,
           tabBarIcon: ({ focused, size }) => {
             const colorWhenFocused = getColor(focused);
             return <User size={size} color={colorWhenFocused} />

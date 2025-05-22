@@ -34,8 +34,8 @@ export default function RedirectRoute() {
             Financy is a mobile application that can help you manage your finances in a simple way.
           </Text>
         </View>
-        <View className="absolute flex flex-col gap-2 bottom-10 left-4 right-4">
-          <Link className="rounded-2xl flex w-full items-center justify-center p-4   bg-zinc-800 dark:bg-zinc-200" href={"/signup"}>
+        <View className="absolute flex flex-col gap-2 bottom-10 left-2 right-2">
+          <Link className="rounded-2xl flex w-full items-center justify-center p-4  bg-zinc-800 dark:bg-zinc-200" href={"/signup"}>
             <Text className="m-auto text-center text-zinc-50 dark:text-zinc-900 w-full">
               New account
             </Text>

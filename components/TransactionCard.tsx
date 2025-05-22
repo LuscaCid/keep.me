@@ -5,47 +5,47 @@ import { formatToBrl } from "@/utils/formatToBrl";
 import { Transaction, TransactionCategory } from "@/@types/Transaction";
 
 interface TransactionProps {
-  transaction : Transaction;
+  transaction: Transaction;
 }
-export function TransactionCard ({ transaction } : TransactionProps) {
+export function TransactionCard({ transaction }: TransactionProps) {
 
-  const IconWrapper = ({ icon : Icon, color , bgColor} : { icon : LucideIcon, color : string, bgColor : string; }) => (
-    <View 
+  const IconWrapper = ({ icon: Icon, color, bgColor }: { icon: LucideIcon, color: string, bgColor: string; }) => (
+    <View
       className="rounded-full p-4 flex items-center justify-center"
       style={{
-        backgroundColor : bgColor,
-      }}  
+        backgroundColor: bgColor,
+      }}
     >
-      <Icon size={20} color={color}/>
+      <Icon size={20} color={color} />
     </View>
   )
-  const icons : Record<TransactionCategory, JSX.Element> = useMemo(() => ({
+  const icons: Record<TransactionCategory, JSX.Element> = useMemo(() => ({
     //green
-    salary : <IconWrapper 
-      icon={CreditCard} 
-      bgColor="#bbf7d0" 
+    salary: <IconWrapper
+      icon={CreditCard}
+      bgColor="#bbf7d0"
       color="#22c55e"
     />,
     // yellow
-    "subscription-fee" : <IconWrapper 
-      bgColor="#fef08a" 
-      icon={Laptop} 
+    "subscription-fee": <IconWrapper
+      bgColor="#fef08a"
+      icon={Laptop}
       color="#eab308"
     />,
     //purple
-    bill : <IconWrapper 
-      icon={ReceiptText} 
-      bgColor="#e9d5ff" 
+    bill: <IconWrapper
+      icon={ReceiptText}
+      bgColor="#e9d5ff"
       color="#a855f7"
     />,
-    saving : <IconWrapper 
-      icon={Download} 
-      bgColor="#bbf7d0" 
+    saving: <IconWrapper
+      icon={Download}
+      bgColor="#bbf7d0"
       color="#22c55e"
     />,
-    shopping : <IconWrapper 
-      icon={ShoppingBag} 
-      bgColor="#fef08a" 
+    shopping: <IconWrapper
+      icon={ShoppingBag}
+      bgColor="#fef08a"
       color="#eab308"
     />,
 
@@ -64,9 +64,9 @@ export function TransactionCard ({ transaction } : TransactionProps) {
           </Text>
         </View>
       </View>
-        <Text className={`font-bold text-xl ${transaction.type === "income" ? "text-green-600" : "text-red-400"}`}>
-          {formatToBrl(transaction.value)}
-        </Text>
+      <Text className={`font-bold text-xl ${transaction.type === "income" ? "text-green-600" : "text-red-400"}`}>
+        {formatToBrl(transaction.value)}
+      </Text>
     </View>
   )
 }

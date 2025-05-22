@@ -8,19 +8,22 @@ import { creditCards } from "@/constants/creditCards";
 import { FormSchemaFactory } from "@/constants/formSchemas";
 import { transactions } from "@/constants/transactions";
 import { useDropdow } from "@/store/dropdown";
+import { ButtonSubmit } from "@/UI/ButtonSubmit";
 import { FormInput } from "@/UI/FormInput";
 import { Icon } from "@/UI/Icon";
+import { RadioGroup, RadioItem } from "@/UI/RadioGroup";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
 import { api } from "@/utils/api";
+import { TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { ArrowRight, CreditCard, PlusCircle } from "lucide-react-native";
+import { ArrowDown, ArrowRightLeft, ArrowUp, CreditCard, Key, PlusCircle } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { useCallback, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { SectionList, Text, TouchableOpacity, View } from "react-native";
+import { Keyboard, SectionList, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 
 type FormTransactionType = z.infer<typeof FormSchemaFactory.formTransactionSchema>;
@@ -31,10 +34,13 @@ export default function WalletScreen() {
   const { colorScheme } = useColorScheme();
   const setIsOpen = useDropdow(state => state.setIsOpen);
   const router = useRouter();
-  const queryClient = useQueryClient();
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
-  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | undefined>(undefined);
-
+  const [transactionToEdit] = useState<Transaction | undefined>(undefined);
+  const [items, setItems] = useState<RadioItem[]>([
+    { label: <Icon icon={ArrowUp} color="green" />, value: "receipt", selected: true },
+    { label: <Icon icon={ArrowRightLeft} />, value: "transaction", selected: false },
+    { label: <Icon icon={ArrowDown} color="red" />, value: "expense", selected: false }
+  ]);
   const methods = useForm<FormTransactionType>({
     resolver: zodResolver(FormSchemaFactory.formTransactionSchema),
     defaultValues: {
@@ -43,10 +49,9 @@ export default function WalletScreen() {
       value: transactionToEdit ? transactionToEdit.value.toString() : "",
     }
   });
-  const { mutateAsync : addOutcomeAsync, isPending } = useMutation({
+  const { mutateAsync: addOutcomeAsync, isPending } = useMutation({
     mutationFn: async (data: FormTransactionType) => {
-      const response = await api.post("transaction/outcome", { data });
-      return response.data;
+      await new Promise((reject, resolve) => setTimeout(resolve, 1000));
     }
   })
   const { data, isLoading, isFetching, isError, refetch } = useQuery({
@@ -62,41 +67,52 @@ export default function WalletScreen() {
   });
   const handleOpenTransactionBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
+    setItems([
+      { label: <Icon icon={ArrowUp} color="green" />, value: "receipt", selected: true },
+      { label: <Icon icon={ArrowRightLeft} />, value: "transaction", selected: false },
+      { label: <Icon icon={ArrowDown} color="red" />, value: "expense", selected: false }
+    ]);
   }, [bottomSheetRef])
-  const handleFetch = () => {
-    refetch();
-  };
+
   const handleNavigateToNewCard = useCallback(() => {
     setIsOpen(false);
     router.push({ pathname: "/card/[id]", params: { id: "0" } });
   }, [router, setIsOpen]);
   const handleSubmitTransactionForm = useCallback(async (data: FormTransactionType) => {
-    const dataResponse = await addOutcomeAsync(data);
-    return dataResponse;
+    console.log(data);
+    await addOutcomeAsync(data);
   }, [addOutcomeAsync])
   return (
     <ScreenWrapper
       bottomSheet={{
         ref: bottomSheetRef,
         children: (
-          <FormProvider {...methods}>
-            <View className="flex flex-col gap-4">
-              <Text className="text-2xl font-medium dark:text-zinc-200">
-                Add transaction
-              </Text>
-              <FormInput<KeyofFormTransaction> name="value" placeholder="Transaction value" numberKeyboard />
-              <FormInput<KeyofFormTransaction> name="type" placeholder="Type" numberKeyboard />
-              <FormInput<KeyofFormTransaction> name="creditCard" placeholder="Select credit card" numberKeyboard />
-              <TouchableOpacity className="rounded-2xl p-4  bg-zinc-300 dark:bg-zinc-950">
-                <View className="flex flex-row items-center gap-2 m-auto">
-                  <Text className="dark:text-zinc-200 font-medium text-lg">
-                    Add
-                  </Text>
-                  <Icon icon={ArrowRight} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </FormProvider>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <FormProvider {...methods}>
+              <View className="flex flex-col gap-4 ">
+                <Text className="text-2xl font-medium dark:text-zinc-200">
+                  Add transaction
+                </Text>
+                <FormInput<KeyofFormTransaction>
+                  name="value"
+                  placeholder="Transaction value"
+                  numberKeyboard
+                />
+                <FormInput<KeyofFormTransaction>
+                  name="creditCard"
+                  placeholder="Select credit card"
+                />
+                <RadioGroup setItems={setItems} items={items} />
+                <ButtonSubmit
+                  isPending={isPending}
+                  titleWhenIsPending="Saving"
+                  onPress={methods.handleSubmit(handleSubmitTransactionForm)}
+                  title="Add"
+                />
+              </View>
+            </FormProvider>
+          </TouchableWithoutFeedback>
+
         )
       }}
       dropdown={
