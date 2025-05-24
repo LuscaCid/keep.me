@@ -1,110 +1,102 @@
-import { CreditCard as CreditCardType } from "@/@types/CreditCard";
 import { Transaction } from "@/@types/Transaction";
 import { AppScrollView } from "@/components/AppScrollView";
-import { CreditCardComponent } from "@/components/CreditCard";
-import { CreditCardBottomSheet } from "@/components/CreditCardBottomSheetForm";
+import { BankAccountBottomSheet } from "@/components/BankAccountBottomSheetForm";
 import { FinancialWrapper } from "@/components/FinancialWrapper";
 import { DropdownButton, GenericalHeader } from "@/components/GenericalHeader";
 import { TransactionCard } from "@/components/TransactionCard";
 import { TransactionFormBottomSheet } from "@/components/TransactionFormBottomSheet";
-import { creditCards } from "@/constants/creditCards";
 import { FormSchemaFactory } from "@/constants/formSchemas";
 import { transactions } from "@/constants/transactions";
 import { useDropdow } from "@/store/dropdown";
-import { ButtonSubmit } from "@/UI/ButtonSubmit";
-import { FormInput } from "@/UI/FormInput";
+import { CustomBottomSheetFlatList } from "@/UI/CustomBottomSheets";
 import { Icon } from "@/UI/Icon";
-import { InputButton } from "@/UI/InputButton";
-import { RadioGroup, RadioItem } from "@/UI/RadioGroup";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
-import { api } from "@/utils/api";
-import { SNAP_POINT_TYPE, TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
 import { BottomSheetMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
-import { ArrowDown, ArrowRightLeft, ArrowUp, CreditCard, Key, PlusCircle } from "lucide-react-native";
+import { CreditCard, PlusCircle } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
-import { useCallback, useRef, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { Keyboard, SectionList, Text, TouchableOpacity, View } from "react-native";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Keyboard, RefreshControl, SectionList, Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
+import { BankCardComponent } from "@/components/BankAccountCard";
+import { BankAccountDto } from "@/@types/BankAccount";
+import { BankSelectItem } from "@/UI/BankSelectItem";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useBankAccount } from "@/hooks/useBankAccount";
 
 export type FormTransactionType = z.infer<typeof FormSchemaFactory.formTransactionSchema>;
 export type KeyofFormTransaction = keyof FormTransactionType;
 
 export default function WalletScreen() {
+  const queryKey = useMemo(() => ["bank-accounts"], [])
+
   const [transactionToEdit] = useState<Transaction | undefined>(undefined);
-  const [creditCardSelected, setCreditCardSelected] = useState<CreditCardType | undefined>(undefined);
+  const [selectedBankAccount, setSelectedBankAccount] = useState<BankAccountDto | undefined>(undefined);
+  const [page, setPage] = useState(1);
 
-  const [items, setItems] = useState<RadioItem[]>([
-    { label: <Icon icon={ArrowUp} color="green" />, value: "receipt", selected: true },
-    { label: <Icon icon={ArrowRightLeft} />, value: "transaction", selected: false },
-    { label: <Icon icon={ArrowDown} color="red" />, value: "expense", selected: false }
-  ]);
-
-  const router = useRouter();
+  const queryClient = useQueryClient();
   const { colorScheme } = useColorScheme();
   const setIsOpen = useDropdow(state => state.setIsOpen);
+  const { getBankAccounts } = useBankAccount();
 
   const bottomSheetRef = useRef<BottomSheetMethods>(null);
   const cardBottomSheetRef = useRef<BottomSheetMethods>(null);
-  const creditCardsBottomSheetRef = useRef<BottomSheetMethods>(null);
+  const bankAccountBottomSheetRef = useRef<BottomSheetMethods>(null);
 
   const methods = useForm<FormTransactionType>({
     resolver: zodResolver(FormSchemaFactory.formTransactionSchema),
     defaultValues: {
-      creditCard: transactionToEdit ? transactionToEdit.whereFrom : "",
+      bankAccount: transactionToEdit ? transactionToEdit.whereFrom : "",
       type: transactionToEdit ? transactionToEdit.type : "",
       value: transactionToEdit ? transactionToEdit.value.toString() : "",
     }
   });
-  const { mutateAsync: addOutcomeAsync, isPending } = useMutation({
-    mutationFn: async (data: FormTransactionType) => {
-      await new Promise((reject, resolve) => setTimeout(resolve, 1000));
+
+  const { data: bankAccounts, isLoading, isFetching, isError, error } = useQuery({
+    queryFn: async () => {
+      const response = await fetch("http://26.142.88.159:3000/bankAccounts?_page=1&_limit=5");
+      return await response.json();
     },
-    mutationKey: ["create-transaction"]
+    queryKey
   })
-  const onChangeBottomSheetHeight = useCallback((index: number, position: number, type: SNAP_POINT_TYPE) => {
+
+  const onChangeBottomSheetHeight = useCallback((index: number) => {
     if (index === -1) Keyboard.dismiss();
   }, []);
-  
-  const handleOpenCreditCardsBottomSheet = useCallback(() => {
-    creditCardsBottomSheetRef.current?.expand();
-  }, [creditCardsBottomSheetRef]);
 
   const handleOpenTransactionBottomSheet = useCallback(() => {
     bottomSheetRef.current?.expand();
-    setItems([
-      { label: <Icon icon={ArrowUp} color="green" />, value: "receipt", selected: true },
-      { label: <Icon icon={ArrowRightLeft} />, value: "transaction", selected: false },
-      { label: <Icon icon={ArrowDown} color="red" />, value: "expense", selected: false }
-    ]);
   }, [bottomSheetRef])
 
   const handleOpenCardBottomSheet = useCallback(() => {
     setIsOpen(false);
     cardBottomSheetRef.current?.expand();
-  }, [router, setIsOpen]);
+  }, [setIsOpen, cardBottomSheetRef]);
 
-  const handleSubmitTransactionForm = useCallback(async (data: FormTransactionType) => {
-    await addOutcomeAsync(data);
-  }, [addOutcomeAsync]);
+  const handleSelectAccount = useCallback((account: BankAccountDto) => {
+    bankAccountBottomSheetRef.current?.close();
+    setSelectedBankAccount(account);
+    methods.setValue("bankAccount", account.id.toString());
 
+  }, [bankAccountBottomSheetRef, methods]);
+
+  const onRefresh = useCallback(async () => {
+    await queryClient.invalidateQueries({ queryKey });
+
+  }, [queryClient, queryKey])
   return (
     <ScreenWrapper
       bottomSheets={[
         {
           ref: bottomSheetRef,
-          onChange : onChangeBottomSheetHeight,
+          onChange: onChangeBottomSheetHeight,
           children: (
             <TransactionFormBottomSheet
-              handleOpenCreditCardsBottomSheet={handleOpenCreditCardsBottomSheet}
-              handleSubmitTransactionForm={handleSubmitTransactionForm}
-              isPending={isPending}
-              items={items}
+              setSelectedBankAccount={setSelectedBankAccount}
+              selectedBankAccount={selectedBankAccount}
+              bankAccountBottomSheetRef={bankAccountBottomSheetRef}
               methods={methods}
-              setItems={setItems}
             />
           ),
           snapPoints: ["10%", "40%", "70%"]
@@ -112,22 +104,29 @@ export default function WalletScreen() {
         {
           onChange: onChangeBottomSheetHeight,
           ref: cardBottomSheetRef,
-          children: <CreditCardBottomSheet />,
-          snapPoints: ["30%", "50%", "80%"],
+          children: <BankAccountBottomSheet />,
+          snapPoints: ["30%", "50%", "70%"],
           index: -1
         },
         {
-          ref: creditCardsBottomSheetRef,
-          onChange : onChangeBottomSheetHeight,
+          ref: bankAccountBottomSheetRef,
+          onChange: onChangeBottomSheetHeight,
+          enableDynamicSizing: false,
           children: (
-            <View>
-              <Text>
-                Cartoes de credito
-              </Text>
-            </View>
+            <CustomBottomSheetFlatList
+              contentContainerClassName={" flex flex-col gap-4 pb-10"}
+              data={bankAccounts}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <BankSelectItem
+                  item={item}
+                  handleSelectAccount={handleSelectAccount}
+                />
+              )}
+            />
           ),
           index: -1,
-          snapPoints: ["40%", "70%"]
+          snapPoints: ["20%", "50%"]
         }
       ]}
       dropdown={
@@ -139,20 +138,36 @@ export default function WalletScreen() {
       }
     >
       <GenericalHeader title="Wallet" />
-      <AppScrollView>
+      <AppScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isFetching}
+            onRefresh={onRefresh}
+            colors={["#2196F3"]} // Android
+            tintColor="#2196F3" // iOS
+          />
+        }
+      >
         <View className="flex flex-row gap-4">
           <AppScrollView horizontal contentContainerClassName="flex flex-row gap-4" >
             <TouchableOpacity
               onPress={handleOpenCardBottomSheet}
-              className="flex items-center justify-center p-4 border rounded-2xl border-dashed dark:border-zinc-400 border-zinc-500"
+              className="flex items-center justify-center p-3 border rounded-2xl border-dashed dark:border-zinc-400 border-zinc-500"
             >
               <Icon icon={PlusCircle} />
             </TouchableOpacity>
             {
-              creditCards.length > 0 && (
-                creditCards.map((item) => (
-                  <CreditCardComponent creditCard={item} key={item.id} />
+              !isLoading && bankAccounts && bankAccounts.length > 0 && (
+                bankAccounts.map((item) => (
+                  <BankCardComponent bankCard={item} key={item.id} />
                 ))
+              )
+            }
+            {
+              isError && error && (
+                <Text className="dark:text-zinc-200 text-2xl">
+                  {error.message}
+                </Text>
               )
             }
           </AppScrollView>
@@ -160,7 +175,7 @@ export default function WalletScreen() {
         <View className="flex flex-col gap-4">
           <TouchableOpacity
             onPress={handleOpenTransactionBottomSheet}
-            className="w-full flex items-center flex-row gap-4 justify-center border dark:border-zinc-400 border-zinc-500 rounded-2xl border-dashed p-2 mt-4"
+            className="w-full flex items-center flex-row gap-4 justify-center border dark:border-zinc-400 border-zinc-500 rounded-2xl border-dashed p-3 mt-4"
           >
             <Text className="dark:text-zinc-200 text-zinc-900">
               Add transaction
@@ -185,7 +200,7 @@ export default function WalletScreen() {
             />
           </FinancialWrapper>
         </View>
-        <TouchableOpacity className="p-4 flex items-center justify-center">
+        <TouchableOpacity onPress={() => setPage(prev => prev + 1)} className="p-4 flex items-center justify-center">
           <Text className="text-lg font-medium text-blue-500 ">
             Load more
           </Text>
@@ -194,4 +209,3 @@ export default function WalletScreen() {
     </ScreenWrapper>
   );
 }
-

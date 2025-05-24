@@ -1,5 +1,5 @@
 import { Icon } from "@/UI/Icon";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SunMoon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { Image, Text, TouchableOpacity, View } from "react-native";
@@ -11,6 +11,7 @@ import { ButtonSubmit } from "@/UI/ButtonSubmit";
 import { Checkbox } from "expo-checkbox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageKeys } from "@/constants/storageKeys";
+import { BottomSheetView } from "@gorhom/bottom-sheet";
 export default function RedirectRoute() {
   const router = useRouter()
   const [ checked, setChecked ] = useState(false);
@@ -26,7 +27,7 @@ export default function RedirectRoute() {
       await AsyncStorage.setItem(StorageKeys.skipIndex, JSON.stringify(true));
     }
     router.push({ pathname: "/(tabs)/home" })
-  }, [router])
+  }, [router, checked])
 
   return (
     <ScreenWrapper
@@ -34,7 +35,7 @@ export default function RedirectRoute() {
         {
           ref: redirectBottomSheet,
           children: (
-            <View className="flex flex-col gap-4 w-full">
+            <BottomSheetView className="bg-zinc-100 dark:bg-zinc-800 flex-1 p-4 flex flex-col gap-4 w-full">
               <View className="flex flex-row items-center gap-4">
                 <Text className="text-lg font-semibold dark:text-zinc-100">
                   Abrir o aplicativo automaticamente da proxima vez?
@@ -48,9 +49,9 @@ export default function RedirectRoute() {
                 title="Join"
                 onPress={handleNavigateToHome}
               />
-            </View>
+            </BottomSheetView>
           ),
-          snapPoints: ['15%']
+          snapPoints: ['20%']
         }
       ]}
     >

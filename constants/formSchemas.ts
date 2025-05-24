@@ -1,5 +1,6 @@
 import { z } from "zod"
 export class FormSchemaFactory { 
+
   static formCreditCardSchema = z.object({
     number : z.string().length(16, "O número do cartão deve ter 16 caracteres"),
     bank : z.string().min(2, "Selecione um banco válido"),
@@ -9,15 +10,28 @@ export class FormSchemaFactory {
     totalBalance : z.string(),
     exp : z.string(),
   });
+  
+  static formBankAccountSchema = z.object({
+    accountHolder : z.string().min(2),
+    accountType : z.string().optional(),
+    accountNumber : z.string().optional(),
+    agency : z.string().optional(),
+    balance : z.number().optional(),
+    // customColor : z.string(),
+    bankName : z.string().optional(),
+    cardBrand : z.string().optional(),
+  });
 
   static formTransactionSchema = z.object({
     value : z.string(),
     type : z.string(),
-    creditCard : z.string(),
+    bankAccount : z.string(),
     fixed : z.boolean().optional(),
     paid : z.boolean().optional()
-  })
+  });
+
   static formTest = z.object({
     name : z.string()
-  })
+  });
+
 }

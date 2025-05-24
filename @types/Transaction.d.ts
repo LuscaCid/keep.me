@@ -5,9 +5,10 @@ export interface Transaction {
   item : string;
   date : Date|string;
   type : TransactionType;
-  whereFrom : "credit-card" | "money" | "bank";
+  whereFrom : "credit-card" | "wallet" | "bank";
   fromId : string; 
-}
+};
+
 export type TransactionCategory = "subscription-fee" | "shopping" | "bill" | "saving" | "salary";
 
-export type TransactionType = "outcome" | "income";
+export type TransactionType = "outcome" | "income" | "transaction";

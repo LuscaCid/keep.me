@@ -3,7 +3,7 @@ import { BottomSheetFlatListProps, BottomSheetScrollViewProps, BottomSheetSectio
 import { BottomSheetViewProps } from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheetView/types";
 import { PropsWithChildren } from "react";
 
-export function CustomBottomSheetView({ children, className,...rest }: PropsWithChildren<BottomSheetViewProps>) {
+export function CustomBottomSheetView({ children, className, ...rest }: PropsWithChildren<BottomSheetViewProps>) {
   return (
     <BottomSheetView
       className={`bg-zinc-100 dark:bg-zinc-800 flex-1 p-4 ${className}`}
@@ -42,16 +42,18 @@ export function CustomBottomSheetFlatList<T>({
   renderItem,
   keyExtractor,
   ListHeaderComponent,
+  className,
   ...rest
 }: BottomSheetFlatListProperties<T>) {
   return (
     <BottomSheetFlatList
       {...rest}
       data={data}
+      alwaysBounceVertical 
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       ListHeaderComponent={ListHeaderComponent}
-      className="bg-zinc-100 dark:bg-zinc-800 flex-1 p-4"
+      className={`bg-zinc-100 dark:bg-zinc-800 flex-1 p-4 `}
     >
       {children}
     </BottomSheetFlatList>

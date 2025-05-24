@@ -47,8 +47,8 @@ export function ScreenWrapper({ children, className, dropdown, bottomSheets }: P
               key={idx}
               index={bottomSheet.index}
               snapPoints={bottomSheet.snapPoints}
-              ref={bottomSheet.ref}
               onChange={bottomSheet.onChange}
+              {...bottomSheet}
             >
               {bottomSheet.children}
             </BottomSheetWrapper>

@@ -1,0 +1,500 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "value": 120.5,
+      "category": "shopping",
+      "item": "Amazon purchase",
+      "date": "2025-05-20",
+      "type": "outcome",
+      "whereFrom": "credit-card",
+      "fromId": "1"
+    },
+    {
+      "id": 2,
+      "value": 5000,
+      "category": "salary",
+      "item": "Monthly salary",
+      "date": "2025-05-01",
+      "type": "income",
+      "whereFrom": "bank",
+      "fromId": "2"
+    },
+    {
+      "id": 3,
+      "value": 100,
+      "category": "bill",
+      "item": "Electricity bill",
+      "date": "2025-05-10",
+      "type": "outcome",
+      "whereFrom": "wallet",
+      "fromId": "3"
+    },
+    {
+      "id": 4,
+      "value": 150,
+      "category": "subscription-fee",
+      "item": "Netflix",
+      "date": "2025-05-11",
+      "type": "outcome",
+      "whereFrom": "credit-card",
+      "fromId": "1"
+    },
+    {
+      "id": 5,
+      "value": 300,
+      "category": "shopping",
+      "item": "Clothes",
+      "date": "2025-05-15",
+      "type": "outcome",
+      "whereFrom": "wallet",
+      "fromId": "4"
+    },
+    {
+      "id": 6,
+      "value": 250,
+      "category": "saving",
+      "item": "Emergency fund",
+      "date": "2025-05-05",
+      "type": "transaction",
+      "whereFrom": "bank",
+      "fromId": "2"
+    },
+    {
+      "id": 7,
+      "value": 320.75,
+      "category": "bill",
+      "item": "Water bill",
+      "date": "2025-05-09",
+      "type": "outcome",
+      "whereFrom": "wallet",
+      "fromId": "3"
+    },
+    {
+      "id": 8,
+      "value": 80,
+      "category": "shopping",
+      "item": "Shoes",
+      "date": "2025-05-12",
+      "type": "outcome",
+      "whereFrom": "credit-card",
+      "fromId": "1"
+    },
+    {
+      "id": 9,
+      "value": 200,
+      "category": "saving",
+      "item": "Investment",
+      "date": "2025-05-18",
+      "type": "transaction",
+      "whereFrom": "bank",
+      "fromId": "2"
+    },
+    {
+      "id": 10,
+      "value": 90,
+      "category": "subscription-fee",
+      "item": "Spotify",
+      "date": "2025-05-19",
+      "type": "outcome",
+      "whereFrom": "wallet",
+      "fromId": "3"
+    }
+  ],
+  "bankAccounts": [
+    {
+      "id": 1,
+      "accountHolder": "John Doe",
+      "accountType": "checking",
+      "accountNumber": "123456-1",
+      "agency": "0001",
+      "nickname": "Main",
+      "balance": 3200,
+      "customColor": "#3f51b5",
+      "bankName": "Bank of America",
+      "cardBrand": "Visa",
+      "icon": "bank.svg"
+    },
+    {
+      "id": 2,
+      "accountHolder": "Jane Smith",
+      "accountType": "savings",
+      "accountNumber": "987654-3",
+      "agency": "0002",
+      "balance": 5000,
+      "bankName": "Chase"
+    },
+    {
+      "id": 3,
+      "accountHolder": "Alex Johnson",
+      "accountType": "wallet",
+      "accountNumber": "112233-4",
+      "agency": "0003",
+      "balance": 150,
+      "bankName": "PayPal"
+    },
+    {
+      "id": 4,
+      "accountHolder": "Maria Garcia",
+      "accountType": "salary",
+      "accountNumber": "556677-8",
+      "agency": "0004",
+      "balance": 4200,
+      "bankName": "Wells Fargo"
+    },
+    {
+      "id": 5,
+      "accountHolder": "Lucas Almeida",
+      "accountType": "checking",
+      "accountNumber": "111111-1",
+      "agency": "0010",
+      "balance": 6200,
+      "bankName": "Itau"
+    },
+    {
+      "id": 6,
+      "accountHolder": "Carla Souza",
+      "accountType": "savings",
+      "accountNumber": "222222-2",
+      "agency": "0011",
+      "balance": 8800,
+      "bankName": "Santander"
+    },
+    {
+      "id": 7,
+      "accountHolder": "Pedro Costa",
+      "accountType": "wallet",
+      "accountNumber": "333333-3",
+      "agency": "0012",
+      "balance": 90,
+      "bankName": "PicPay"
+    },
+    {
+      "id": 8,
+      "accountHolder": "Ana Clara",
+      "accountType": "salary",
+      "accountNumber": "444444-4",
+      "agency": "0013",
+      "balance": 3500,
+      "bankName": "Bradesco"
+    },
+    {
+      "id": 9,
+      "accountHolder": "Roberto Lima",
+      "accountType": "checking",
+      "accountNumber": "555555-5",
+      "agency": "0014",
+      "balance": 2000,
+      "bankName": "Nubank"
+    },
+    {
+      "id": 10,
+      "accountHolder": "Sofia Mendes",
+      "accountType": "savings",
+      "accountNumber": "666666-6",
+      "agency": "0015",
+      "balance": 7400,
+      "bankName": "Inter"
+    }
+  ],
+  "bankAccountCards": [
+    {
+      "id": "1",
+      "bankName": "Nubank",
+      "nickname": "Roxo",
+      "currentBalance": 3200,
+      "customColor": "#8a05be",
+      "cardBrand": "MasterCard",
+      "accountType": "credit",
+      "lastTransactionDate": "2025-05-20T12:00:00Z",
+      "icon": "nubank.svg"
+    },
+    {
+      "id": "2",
+      "bankName": "Itau",
+      "currentBalance": 2700,
+      "cardBrand": "Visa",
+      "accountType": "credit",
+      "lastTransactionDate": "2025-05-18T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "bankName": "Inter",
+      "currentBalance": 1300,
+      "accountType": "debit"
+    },
+    {
+      "id": "4",
+      "bankName": "Santander",
+      "nickname": "Vermelho",
+      "currentBalance": 4500,
+      "customColor": "#cc0000",
+      "cardBrand": "Visa",
+      "accountType": "credit"
+    },
+    {
+      "id": "5",
+      "bankName": "Bradesco",
+      "currentBalance": 3100,
+      "accountType": "debit"
+    },
+    {
+      "id": "6",
+      "bankName": "Chase",
+      "currentBalance": 8000,
+      "cardBrand": "Visa",
+      "accountType": "credit"
+    },
+    {
+      "id": "7",
+      "bankName": "Bank of America",
+      "currentBalance": 4000,
+      "accountType": "credit"
+    },
+    {
+      "id": "8",
+      "bankName": "PicPay",
+      "currentBalance": 120,
+      "accountType": "wallet"
+    },
+    {
+      "id": "9",
+      "bankName": "PayPal",
+      "currentBalance": 60,
+      "accountType": "wallet"
+    },
+    {
+      "id": "10",
+      "bankName": "Neon",
+      "currentBalance": 1000,
+      "cardBrand": "MasterCard",
+      "accountType": "credit"
+    }
+  ],
+  "creditCards": [
+    {
+      "id": "1",
+      "name": "Cartão Nubank",
+      "cvv": "123",
+      "totalBalance": "2500",
+      "number": "4111111111111111",
+      "exp": "12/27",
+      "brand": "MasterCard",
+      "bank": "Nubank"
+    },
+    {
+      "id": "2",
+      "name": "Cartão Visa Itau",
+      "cvv": "321",
+      "totalBalance": "3000",
+      "number": "4222222222222",
+      "exp": "06/26",
+      "brand": "Visa",
+      "bank": "Itau"
+    },
+    {
+      "id": "3",
+      "name": "Cartão Inter",
+      "cvv": "444",
+      "totalBalance": "4000",
+      "number": "4333333333333",
+      "exp": "03/25",
+      "brand": "MasterCard",
+      "bank": "Inter"
+    },
+    {
+      "id": "4",
+      "name": "Santander Visa",
+      "cvv": "555",
+      "totalBalance": "5000",
+      "number": "4444444444444",
+      "exp": "10/26",
+      "brand": "Visa",
+      "bank": "Santander"
+    },
+    {
+      "id": "5",
+      "name": "Bradesco Master",
+      "cvv": "111",
+      "totalBalance": "6000",
+      "number": "4555555555555",
+      "exp": "08/27",
+      "brand": "MasterCard",
+      "bank": "Bradesco"
+    },
+    {
+      "id": "6",
+      "name": "Chase Freedom",
+      "cvv": "222",
+      "totalBalance": "7000",
+      "number": "4666666666666",
+      "exp": "09/28",
+      "brand": "Visa",
+      "bank": "Chase"
+    },
+    {
+      "id": "7",
+      "name": "Bank of America Rewards",
+      "cvv": "333",
+      "totalBalance": "8000",
+      "number": "4777777777777",
+      "exp": "11/25",
+      "brand": "Visa",
+      "bank": "Bank of America"
+    },
+    {
+      "id": "8",
+      "name": "PayPal Prepaid",
+      "cvv": "888",
+      "totalBalance": "500",
+      "number": "4888888888888",
+      "exp": "07/25",
+      "brand": "MasterCard",
+      "bank": "PayPal"
+    },
+    {
+      "id": "9",
+      "name": "Neon Card",
+      "cvv": "999",
+      "totalBalance": "1500",
+      "number": "4999999999999",
+      "exp": "05/27",
+      "brand": "MasterCard",
+      "bank": "Neon"
+    },
+    {
+      "id": "10",
+      "name": "PicPay Card",
+      "cvv": "000",
+      "totalBalance": "800",
+      "number": "4000000000000",
+      "exp": "01/29",
+      "brand": "Visa",
+      "bank": "PicPay"
+    }
+  ],
+  "savings": [
+    {
+      "id": 1,
+      "name": "Emergency Fund",
+      "actualValue": 1500,
+      "goal": 5000
+    },
+    {
+      "id": 2,
+      "name": "Trip to Japan",
+      "actualValue": 3000,
+      "goal": 10000
+    },
+    {
+      "id": 3,
+      "name": "New Car",
+      "actualValue": 5000,
+      "goal": 20000
+    },
+    {
+      "id": 4,
+      "name": "House Down Payment",
+      "actualValue": 20000,
+      "goal": 100000
+    },
+    {
+      "id": 5,
+      "name": "Wedding",
+      "actualValue": 7000,
+      "goal": 20000
+    },
+    {
+      "id": 6,
+      "name": "College Fund",
+      "actualValue": 8000,
+      "goal": 25000
+    },
+    {
+      "id": 7,
+      "name": "Tech Upgrade",
+      "actualValue": 900,
+      "goal": 3000
+    },
+    {
+      "id": 8,
+      "name": "Christmas Gifts",
+      "actualValue": 600,
+      "goal": 2000
+    },
+    {
+      "id": 9,
+      "name": "Vacation",
+      "actualValue": 3500,
+      "goal": 7000
+    },
+    {
+      "id": 10,
+      "name": "Camera Equipment",
+      "actualValue": 2000,
+      "goal": 5000
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 3,
+      "name": "Maria Silva",
+      "email": "maria@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 4,
+      "name": "Carlos Souza",
+      "email": "carlos@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 5,
+      "name": "Ana Clara",
+      "email": "ana@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 6,
+      "name": "Pedro Henrique",
+      "email": "pedro@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 7,
+      "name": "Roberta Melo",
+      "email": "roberta@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 8,
+      "name": "Vinicius Gomes",
+      "email": "vinicius@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 9,
+      "name": "Lucas Rocha",
+      "email": "lucas@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 10,
+      "name": "Juliana Paes",
+      "email": "juliana@example.com",
+      "password": "123456"
+    }
+  ]
+}
