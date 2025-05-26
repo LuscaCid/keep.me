@@ -1,13 +1,14 @@
 import { CreditCard, Download, Laptop, LucideIcon, ReceiptText, ShoppingBag } from "lucide-react-native";
-import { JSX, useMemo } from "react";
-import { Text, View } from "react-native";
+import { Dispatch, JSX, SetStateAction, useMemo } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { formatToBrl } from "@/utils/formatToBrl";
 import { Transaction, TransactionCategory } from "@/@types/Transaction";
 
 interface TransactionProps {
   transaction: Transaction;
+  setTransactionToEdit: Dispatch<SetStateAction<Transaction | undefined>>;
 }
-export function TransactionCard({ transaction }: TransactionProps) {
+export function TransactionCard({ transaction, setTransactionToEdit }: TransactionProps) {
 
   const IconWrapper = ({ icon: Icon, color, bgColor }: { icon: LucideIcon, color: string, bgColor: string; }) => (
     <View
@@ -52,7 +53,9 @@ export function TransactionCard({ transaction }: TransactionProps) {
   }), []);
 
   return (
-    <View className="dark:border dark:border-zinc-800 rounded-2xl w-full bg-white dark:bg-zinc-900  p-4 flex flex-row items-center justify-between ">
+    <TouchableOpacity
+      onPress={() => setTransactionToEdit(transaction)}
+      className="dark:border dark:border-zinc-800 rounded-2xl w-full bg-white dark:bg-zinc-900  p-4 flex flex-row items-center justify-between ">
       <View className="flex flex-row gap-2 text-green-500">
         {icons[transaction.category]}
         <View className="flex flex-col gap-1">
@@ -67,6 +70,6 @@ export function TransactionCard({ transaction }: TransactionProps) {
       <Text className={`font-bold text-xl ${transaction.type === "income" ? "text-green-600" : "text-red-400"}`}>
         {formatToBrl(transaction.value)}
       </Text>
-    </View>
+    </TouchableOpacity>
   )
 }

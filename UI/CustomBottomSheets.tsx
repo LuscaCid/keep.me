@@ -43,6 +43,7 @@ export function CustomBottomSheetFlatList<T>({
   keyExtractor,
   ListHeaderComponent,
   className,
+  contentContainerClassName,
   ...rest
 }: BottomSheetFlatListProperties<T>) {
   return (
@@ -53,6 +54,7 @@ export function CustomBottomSheetFlatList<T>({
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       ListHeaderComponent={ListHeaderComponent}
+      contentContainerClassName={`flex flex-col gap-2 pb-10 ${contentContainerClassName}`}
       className={`bg-zinc-100 dark:bg-zinc-800 flex-1 p-4 `}
     >
       {children}

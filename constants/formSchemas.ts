@@ -23,11 +23,14 @@ export class FormSchemaFactory {
   });
 
   static formTransactionSchema = z.object({
-    value : z.string(),
+    value : z.number(),
+    description : z.string(),
     type : z.string(),
     bankAccount : z.string(),
     fixed : z.boolean().optional(),
-    paid : z.boolean().optional()
+    paid : z.boolean().optional(),
+    destinyBankAccount : z.string().optional(),
+    category : z.string().min(1, "A transaction needs category correlated")
   });
 
   static formTest = z.object({

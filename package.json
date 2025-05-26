@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "server" : "npx json-server db.json -w",
+    "server": "npx json-server db.json -w",
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
@@ -55,7 +55,8 @@
     "tailwindcss": "^3.4.17",
     "zod": "^3.25.7",
     "zustand": "^5.0.4",
-    "expo-checkbox": "~4.1.4"
+    "expo-checkbox": "~4.1.4",
+    "expo-dev-client": "~5.1.8"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

@@ -12,8 +12,10 @@ import { savings } from "@/constants/savings";
 import { transactions } from "@/constants/transactions";
 import { earnings } from "@/constants/earnings";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
+import { useTransaction } from "@/hooks/useTransaction";
 
 export default function HomeScreen() {
+  const { getTransactions } = useTransaction();
   const renderItem = ({ item, index }: { item: Saving, index: number }) => {
     const isOdd = index % 2 !== 0;
     return <SavingCard

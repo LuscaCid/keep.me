@@ -496,5 +496,133 @@
       "email": "juliana@example.com",
       "password": "123456"
     }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Food"
+    },
+    {
+      "id": "2",
+      "name": "Transport"
+    },
+    {
+      "id": "3",
+      "name": "Health"
+    },
+    {
+      "id": "4",
+      "name": "Education"
+    },
+    {
+      "id": "5",
+      "name": "Entertainment"
+    },
+    {
+      "id": "6",
+      "name": "Housing"
+    },
+    {
+      "id": "7",
+      "name": "Clothing"
+    },
+    {
+      "id": "8",
+      "name": "Technology"
+    },
+    {
+      "id": "9",
+      "name": "Travel"
+    },
+    {
+      "id": "10",
+      "name": "Other"
+    }
+  ],
+  "transaction-group": [
+    {
+      "title": "2025-05-18T20:36:40.522Z",
+      "data": [
+        {
+          "category": "salary",
+          "date": "2025-05-25T00:00:00.000Z",
+          "id": 1,
+          "item": "Freelance",
+          "type": "income",
+          "value": 2000
+        },
+        {
+          "category": "bill",
+          "date": "2025-05-19T20:36:40.522Z",
+          "id": 2,
+          "item": "Light bill",
+          "type": "outcome",
+          "value": 300
+        }
+      ]
+    },
+    {
+      "title": "2025-05-18T20:36:40.522Z",
+      "data": [
+        {
+          "category": "salary",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 9,
+          "item": "Eua",
+          "type": "outcome",
+          "value": 200
+        },
+        {
+          "category": "shopping",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 7,
+          "item": "Roupa",
+          "type": "outcome",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "title": "2025-05-18T20:36:40.522Z",
+      "data": [
+        {
+          "category": "salary",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 3,
+          "item": "Eua",
+          "type": "outcome",
+          "value": 200
+        },
+        {
+          "category": "shopping",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 5,
+          "item": "Roupa",
+          "type": "outcome",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "title": "2025-05-18T20:36:40.522Z",
+      "data": [
+        {
+          "category": "salary",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 4,
+          "item": "Eua",
+          "type": "outcome",
+          "value": 200
+        },
+        {
+          "category": "shopping",
+          "date": "2025-05-18T20:36:40.522Z",
+          "id": 6,
+          "item": "Roupa",
+          "type": "outcome",
+          "value": 60
+        }
+      ]
+    }
   ]
 }

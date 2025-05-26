@@ -1,4 +1,4 @@
-import { X } from "lucide-react-native";
+import { Delete } from "lucide-react-native";
 import { useFormContext } from "react-hook-form";
 import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
 
@@ -28,7 +28,7 @@ export function InputButton<T extends string>({ onPress, placeholder, name, valu
           onPress={onClear}
           className="rounded- px-4 py-3"
         >
-          <X size={15} color={"red"} />
+          <Delete size={20} color={"#f87171"} />
         </TouchableOpacity>
       </View>
       {errors[name] && (

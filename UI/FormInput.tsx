@@ -8,6 +8,7 @@ interface Props<T extends string> {
   required?: boolean;
   displayValue?: (value: any) => string;
   parseValue?: (text: string) => any;
+  controlledValue? : string|number;
 }
 
 export function FormInput<T extends string>({
@@ -16,7 +17,8 @@ export function FormInput<T extends string>({
   numberKeyboard,
   required,
   displayValue,
-  parseValue
+  parseValue,
+  controlledValue
 }: Props<T>) {
   const { control, formState: { errors } } = useFormContext();
 
@@ -38,9 +40,9 @@ export function FormInput<T extends string>({
                   onChange(parseValue(text));
                   return;
                 }
-                onChange(text);
+                onChange(numberKeyboard ? Number(text) : text);
               }}
-              value={displayValue ? displayValue(value) : value}
+              value={controlledValue ? controlledValue.toString() : displayValue ? displayValue(value) : value}
             />
           );
         }}

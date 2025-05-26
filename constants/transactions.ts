@@ -1,5 +1,7 @@
+import { Transaction } from "@/@types/Transaction";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
+import { SectionListData } from "react-native";
 
 export const transactions = [
   {

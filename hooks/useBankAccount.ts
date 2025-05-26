@@ -6,21 +6,14 @@ import { useCallback } from "react";
 export function useBankAccount() {
   const BASE_PATH = "bankAccounts";
 
-  const getBankAccounts = useCallback(async (page: number) => {
-    console.log("fetching");
+  const getBankAccounts = useCallback(async (page?: number) => {
     const queryParams = new URLSearchParams();
 
-    queryParams.append("_page", page.toString());
-    queryParams.append("_limit", "5");
-    try {
-      const response = await api.get(`${BASE_PATH}/`, { params: queryParams });
-      return response.data as BankAccountDto[];
+    queryParams.append("_page", (page ?? "1").toString());
+    page && queryParams.append("_limit", "10");
 
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.log(err);
-      }
-    }
+    const response = await api.get(`${BASE_PATH}/`, { params: queryParams });
+    return response.data as BankAccountDto[];
     }, [])
 
   const postBankAccount = useCallback(async (data: BankAccountDto) => {

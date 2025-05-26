@@ -6,7 +6,8 @@ export interface Transaction {
   date : Date|string;
   type : TransactionType;
   whereFrom : "credit-card" | "wallet" | "bank";
-  fromId : string; 
+  fromId : string;
+  description : string; 
 };
 
 export type TransactionCategory = "subscription-fee" | "shopping" | "bill" | "saving" | "salary";
