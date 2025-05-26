@@ -43,11 +43,11 @@ export default function HomeScreen() {
             horizontal
             data={earnings}
             renderItem={({ item, index }) => (
-              <EarningCard 
-                keyColor={index} 
-                key={index} 
-                amount={item.amount} 
-                from={item.from} 
+              <EarningCard
+                keyColor={index}
+                key={index}
+                amount={item.amount}
+                from={item.from}
               />
             )}
           />
@@ -76,7 +76,10 @@ export default function HomeScreen() {
               )}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
-                <TransactionCard transaction={item as Transaction} key={item.id} />
+                <TransactionCard
+                  transaction={item as Transaction}
+                  key={item.id}
+                />
               )}
             />
           </FinancialWrapper>

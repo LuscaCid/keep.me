@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { ArrowRight, Home, MessageCircle, SunMoon, User, Wallet2Icon } from "lucide-react-native";
+import { ArrowRight, ChartArea, Home, MessageCircle, SunMoon, User, Wallet2Icon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import "../../global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -25,8 +25,8 @@ export default function Layout() {
     <Tabs
       screenOptions={
         {
-          freezeOnBlur : true,
-          sceneStyle : {backgroundColor : colorScheme === "dark" ? "#27272a" : "#fff"} ,
+          freezeOnBlur: true,
+          sceneStyle: { backgroundColor: colorScheme === "dark" ? "#27272a" : "#fff" },
           headerShown: false,
           tabBarShowLabel: false,
           animation: "none",
@@ -69,6 +69,24 @@ export default function Layout() {
           tabBarIcon: ({ focused, size }) => {
             const colorWhenFocused = getColor(focused);
             return <User size={size} color={colorWhenFocused} />
+          }
+        }}
+      />
+      <Tabs.Screen
+        name="dashboard"
+        options={{
+          tabBarIcon: ({ focused, size }) => {
+            const colorWhenFocused = getColor(focused);
+            return <ChartArea size={size} color={colorWhenFocused} />
+          }
+        }}
+      />
+      <Tabs.Screen
+        name="line"
+        options={{
+          tabBarIcon: ({ focused, size }) => {
+            const colorWhenFocused = getColor(focused);
+            return <ChartArea size={size} color={colorWhenFocused} />
           }
         }}
       />

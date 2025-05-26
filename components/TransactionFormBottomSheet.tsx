@@ -32,12 +32,12 @@ interface Props {
 }
 export function TransactionFormBottomSheet({
   methods,
+  selectedBankAccounts,
+  categorySelected,
   bankOriginAccountBottomSheetRef,
   bankDestinyAccountBottomSheetRef,
-  setSelectedBankAccounts,
-  selectedBankAccounts,
   categoryBottomSheetRef,
-  categorySelected,
+  setSelectedBankAccounts,
   setCategorySelected
 }: Props) {
   const [selectedType, setSelectedTransactionType] = useState<TransactionType>("income");

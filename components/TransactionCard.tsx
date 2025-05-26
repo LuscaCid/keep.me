@@ -6,7 +6,7 @@ import { Transaction, TransactionCategory } from "@/@types/Transaction";
 
 interface TransactionProps {
   transaction: Transaction;
-  setTransactionToEdit: Dispatch<SetStateAction<Transaction | undefined>>;
+  setTransactionToEdit?: Dispatch<SetStateAction<Transaction | undefined>>;
 }
 export function TransactionCard({ transaction, setTransactionToEdit }: TransactionProps) {
 
@@ -54,7 +54,7 @@ export function TransactionCard({ transaction, setTransactionToEdit }: Transacti
 
   return (
     <TouchableOpacity
-      onPress={() => setTransactionToEdit(transaction)}
+      onPress={() => setTransactionToEdit ?  setTransactionToEdit(transaction) : undefined}
       className="dark:border dark:border-zinc-800 rounded-2xl w-full bg-white dark:bg-zinc-900  p-4 flex flex-row items-center justify-between ">
       <View className="flex flex-row gap-2 text-green-500">
         {icons[transaction.category]}

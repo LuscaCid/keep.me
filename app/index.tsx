@@ -2,7 +2,7 @@ import { Icon } from "@/UI/Icon";
 import { Link, useRouter } from "expo-router";
 import { SunMoon } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import Hero from "../assets/images/Hero.png";
 import { ScreenWrapper } from "@/UI/ScreenWrapper";
 import { useCallback, useRef, useState } from "react";
@@ -14,8 +14,8 @@ import { StorageKeys } from "@/constants/storageKeys";
 import { BottomSheetView } from "@gorhom/bottom-sheet";
 export default function RedirectRoute() {
   const router = useRouter()
-  const [ checked, setChecked ] = useState(false);
-  const { toggleColorScheme } = useColorScheme();
+  const [checked, setChecked] = useState(false);
+  const { toggleColorScheme, colorScheme } = useColorScheme();
   const redirectBottomSheet = useRef<BottomSheetMethods>(null);
 
   const askUserForAutomaticRedirect = useCallback(() => {
@@ -56,6 +56,7 @@ export default function RedirectRoute() {
       ]}
     >
       <View className="h-full w-full relative flex flex-col gap-2">
+        <StatusBar animated barStyle={colorScheme === "dark" ? "light-content" : "dark-content"} backgroundColor={"#000"} />
         <View className="flex justify-between flex-row items-center px-4">
           <Text className="text-4xl  dark:text-zinc-100 text-zinc-950 font-bold">
             Keep.me
